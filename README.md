@@ -1,14 +1,8 @@
-<p align="center">
-  <a href="https://www.chromatic.com/">
-    <img alt="Chromatic" src="https://avatars2.githubusercontent.com/u/24584319?s=200&v=4" width="60" />
-  </a>
-</p>
-
 <h1 align="center">
-  Chromatic's Intro to Storybook Vue template
+  WELCOME
 </h1>
 
-This template ships with the main Vue and Storybook configuration files you'll need to get up and running fast.
+This prototype ships with the main Vue and Storybook configuration files for shopping cart.
 
 ## 🚅 Quick start
 
