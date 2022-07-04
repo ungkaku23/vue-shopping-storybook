@@ -6,15 +6,6 @@ This prototype ships with the main Vue and Storybook configuration files for sho
 
 ## 🚅 Quick start
 
-1.  **Create the application.**
-
-    Use [degit](https://github.com/Rich-Harris/degit) to get this template.
-
-    ```shell
-    # Clone the template
-    npx degit chromaui/intro-storybook-vue-template taskbox
-    ```
-
 1.  **Install the dependencies.**
 
     Navigate into your new site’s directory and install the necessary dependencies.
@@ -27,11 +18,11 @@ This prototype ships with the main Vue and Storybook configuration files for sho
     yarn
     ```
 
-1.  **Open the source code and start editing!**
+2.  **Open the source code and start editing!**
 
     Open the `taskbox` directory in your code editor of choice and building your first component!
 
-1.  **Browse your stories!**
+3.  **Browse your stories!**
 
     Run `yarn storybook` to see your component's stories at `http://localhost:6006`
 
