@@ -1,7 +1,7 @@
 import NvHeader from '../components/nv-header.vue';
 
 export default {
-  title: 'Shopping/NvHeader',
+  title: 'Components/NvHeader',
   component: NvHeader,
 };
 

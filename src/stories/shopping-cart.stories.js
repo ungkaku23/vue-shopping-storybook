@@ -2,7 +2,7 @@ import ShoppingCart from '../pages/shopping-cart.vue';
 import * as NvHeaderStories from './nv-header.stories';
 
 export default {
-  title: 'Shopping/ShoppingCart',
+  title: 'Pages/ShoppingCart',
   component: ShoppingCart,
 };
 
@@ -15,15 +15,10 @@ const Template = (args) => ({
     return { user: args.user };
   },
   // Then, those values can be accessed directly in the template
-  template: '<shopping-cart :user="user" />',
+  template: '<shopping-cart />',
 });
 
 export const LoggedIn = Template.bind({});
 LoggedIn.args = {
   ...NvHeaderStories.LoggedIn.args,
-};
-
-export const LoggedOut = Template.bind({});
-LoggedOut.args = {
-  ...NvHeaderStories.LoggedOut.args,
 };

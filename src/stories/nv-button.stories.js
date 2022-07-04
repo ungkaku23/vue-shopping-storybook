@@ -1,7 +1,7 @@
 import NvButton from '../components/nv-button.vue';
 
 export default {
-  title: 'Shopping/NvButton',
+  title: 'Components/NvButton',
   component: NvButton,
   argTypes: {
     backgroundColor: { control: 'color' },
