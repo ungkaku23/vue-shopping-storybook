@@ -24,7 +24,7 @@ export default {
         return ['small', 'medium', 'large'].indexOf(value) !== -1;
       },
     },
-    backgroundColor: {
+    style: {
       type: String,
     },
   },
@@ -35,14 +35,12 @@ export default {
     props = reactive(props);
     return {
       classes: computed(() => ({
-        'storybook-button': true,
-        'storybook-button--primary': props.primary,
-        'storybook-button--secondary': !props.primary,
-        [`storybook-button--${props.size || 'medium'}`]: true,
+        'btn': true,
+        'btn-primary': props.primary,
+        'btn-secondary': !props.primary,
+        [`btn-${props.size || 'medium'}`]: true,
       })),
-      style: computed(() => ({
-        backgroundColor: props.backgroundColor,
-      })),
+      style: computed(() => props.style),
       onClick() {
         emit('click');
       }

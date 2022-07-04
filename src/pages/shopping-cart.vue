@@ -14,20 +14,41 @@
         </h3>
         <div>
           <span class="attr-label">Sub Total:</span>
-          <span class="attr-value">$277.00 USD</span>
+          <span class="attr-value">${{subTotal.toFixed(2)}} USD</span>
         </div>
         <div>
           <span class="attr-label">Shipping:</span>
           <span>
-            <span class="attr-value">$277.00 USD</span>
-            <span v-else >$277.00 USD</span>
+            <span 
+              :class="state.shippingMode !== 'free' ? 'attr-value' : ''"
+              style="cursor: pointer;"
+              @click="updateShippingMode('quick')"
+            >
+              $9.90
+            </span>&nbsp;&nbsp;&nbsp;
+            <span 
+              :class="state.shippingMode === 'free' ? 'attr-value' : ''"
+              style="cursor: pointer;"
+              @click="updateShippingMode('free')"
+            >
+              $0
+            </span>
+            &nbsp; USD
           </span>
         </div>
-        <div>
-          <span class="attr-label">Total:</span>
-          <span class="attr-value">$277.00 USD</span>
+        <div style="margin-bottom: 0;">
+          <span class="attr-label" >Total:</span>
+          <span class="attr-value">${{total.toFixed(2)}} USD</span>
         </div>
       </div>
+
+      <nv-button 
+        primary
+        label="Secure Checkout"
+        size="large" 
+        style="width: 100%; margin: 20px 0px;"
+        @click="doCheckout"
+      />
     </section>
   </article>
 </template>
@@ -36,11 +57,15 @@
 import { ref, reactive, computed, onMounted } from 'vue';
 import './shopping-cart.css';
 import ProductItem from '../components/product-item.vue';
+import NvButton from '../components/nv-button.vue';
 
 export default {
   name: 'shopping-cart',
 
-  components: { ProductItem },
+  components: { 
+    ProductItem,
+    NvButton
+  },
 
   props: {
     products: {
@@ -63,17 +88,40 @@ export default {
       state.value.shippingMode = props.shippingMode
     })
 
+    const subTotal = computed(() => state.value.products.reduce((total, o) => {
+      total += o.price * o.quantity;
+      return total;
+    }, 0));
+
+    const total = computed(() => subTotal.value + (state.value.shippingMode === 'free' ? 0 : 9.90));
+
     return {
       state,
-      sum: computed(() => state.value.products.reduce((total, o) => {
-        total += o.price * o.quantity;
-        return total;
-      }, 0)),
+      subTotal,
+      total,
       onUpdate(item, index) {
         state.value.products[index] = item;
+        emit('onUpdateCart', {
+          products: state.value.products,
+          shippingMode: state.value.shippingMode
+        });
       },
       onRemove(item) {
         state.value.products = state.value.products.filter(o => o.id !== item.id);
+        emit('onUpdateCart', {
+          products: state.value.products,
+          shippingMode: state.value.shippingMode
+        });
+      },
+      updateShippingMode(mode) {
+        state.value.shippingMode = mode;
+        emit('onUpdateCart', {
+          products: state.value.products,
+          shippingMode: state.value.shippingMode
+        });
+      },
+      doCheckout() {
+        console.log("hey")
       }
     };
   }
