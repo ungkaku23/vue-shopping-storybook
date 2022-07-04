@@ -1,0 +1,111 @@
+@font-face {
+  font-family: "Gilroy-Regular";
+  src: url(../assets/font/Gilroy-Regular.ttf)
+    format("truetype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Gilroy-Medium";
+  src: url(../assets/font/Gilroy-Medium.ttf)
+    format("truetype");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Gilroy-SemiBold";
+  src: url(../assets/font/Gilory-Semi-Bold.ttf)
+    format("truetype");
+  font-weight: 600;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 14px 0px;
+}
+
+.product-item p {
+  font-family: 'Gilroy-Regular';
+  font-size: 14px;
+  line-height: 16px;
+  margin: 5px 0px;
+}
+
+.product-item img {
+  width: 73px;
+  height: 80px;
+  background: #151515;
+  border-radius: 8px;
+}
+
+.product-item .left,
+.product-item .right  {
+  display: flex;
+}
+
+.product-item .left div {
+  margin-left: 12px;
+}
+
+.product-item .left div .title {
+  font-family: 'Gilroy-SemiBold';
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+}
+
+.product-item .left div .attr-value {
+  font-family: 'Gilroy-Medium';
+  color: #000000;
+}
+
+.product-item .left div .remove-btn {
+  color: #ADADAD;
+  font-family: 'Gilroy-SemiBold';
+  cursor: pointer;
+}
+
+.product-item .right .quantity-input {
+  width: 55px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-item .right .quantity-input svg {
+  cursor: pointer;
+}
+
+.product-item .right .quantity-input input {
+  color: #A1A1A1;
+  border: 1px solid #A2A2A2;
+  border-radius: 5px;
+  width: 20px;
+  height: 20px;
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  text-align: center;
+  line-height: 137.8%;
+}
+
+.product-item .right .sub-total {
+  margin-left: 15px;
+  font-family: 'Gilroy-SemiBold';
+  font-size: 14px;
+  line-height: 137.8%;
+  color: #000000;
+}

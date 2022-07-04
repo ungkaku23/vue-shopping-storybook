@@ -1,56 +1,54 @@
 <template>
-  <article>
-    <section class="shopping-cart">
-      <product-item
-        v-for="(item, index) in state.products"
-        :item="item"
-        @onUpdate="(obj) => onUpdate(obj, index)"
-        @onRemove="onRemove"
-      />
+  <section class="shopping-cart">
+    <product-item
+      v-for="(item, index) in state.products"
+      :item="item"
+      @onUpdate="(obj) => onUpdate(obj, index)"
+      @onRemove="onRemove"
+    />
 
-      <div class="summary">
-        <h3 class="title">
-          Order Summery
-        </h3>
-        <div>
-          <span class="attr-label">Sub Total:</span>
-          <span class="attr-value">${{subTotal.toFixed(2)}} USD</span>
-        </div>
-        <div>
-          <span class="attr-label">Shipping:</span>
-          <span>
-            <span 
-              :class="state.shippingMode !== 'free' ? 'attr-value' : ''"
-              style="cursor: pointer;"
-              @click="updateShippingMode('quick')"
-            >
-              $9.90
-            </span>&nbsp;&nbsp;&nbsp;
-            <span 
-              :class="state.shippingMode === 'free' ? 'attr-value' : ''"
-              style="cursor: pointer;"
-              @click="updateShippingMode('free')"
-            >
-              $0
-            </span>
-            &nbsp; USD
-          </span>
-        </div>
-        <div style="margin-bottom: 0;">
-          <span class="attr-label" >Total:</span>
-          <span class="attr-value">${{total.toFixed(2)}} USD</span>
-        </div>
+    <div class="summary">
+      <h3 class="title">
+        Order Summery
+      </h3>
+      <div>
+        <span class="attr-label">Sub Total:</span>
+        <span class="attr-value">${{subTotal.toFixed(2)}} USD</span>
       </div>
+      <div>
+        <span class="attr-label">Shipping:</span>
+        <span>
+          <span 
+            :class="state.shippingMode !== 'free' ? 'attr-value' : ''"
+            style="cursor: pointer;"
+            @click="updateShippingMode('quick')"
+          >
+            $9.90
+          </span>&nbsp;&nbsp;&nbsp;
+          <span 
+            :class="state.shippingMode === 'free' ? 'attr-value' : ''"
+            style="cursor: pointer;"
+            @click="updateShippingMode('free')"
+          >
+            $0
+          </span>
+          &nbsp; USD
+        </span>
+      </div>
+      <div style="margin-bottom: 0;">
+        <span class="attr-label" >Total:</span>
+        <span class="attr-value">${{total.toFixed(2)}} USD</span>
+      </div>
+    </div>
 
-      <nv-button 
-        primary
-        label="Secure Checkout"
-        size="large" 
-        style="width: 100%; margin: 20px 0px;"
-        @click="doCheckout"
-      />
-    </section>
-  </article>
+    <nv-button 
+      primary
+      label="Secure Checkout"
+      size="large" 
+      style="width: 100%; margin: 20px 0px;"
+      @click="doCheckout"
+    />
+  </section>
 </template>
 
 <script>

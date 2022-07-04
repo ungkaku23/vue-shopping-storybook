@@ -1,58 +1,56 @@
 <template>
-  <header>
-    <div class="product-item">
-      <div class="left">
-        <img :src="item.img" />
-        <div>
-          <p class="title" style="margin-top: 0px;">{{item.title}}</p>
-          <p><span>Color: </span><span class="attr-value">{{item.color}}</span></p>
-          <p><span>Size: </span><span class="attr-value">{{item.size}}</span></p>
-          <p>
-            <span 
-              class="remove-btn"
-              @click="$emit('onRemove', item)"
-            >
-              Remove
-            </span>
-          </p>
-        </div>
-      </div>
-      <div class="right">
-        <div class="quantity-input">
-          <svg
-            width="13"
-            height="13"
-            fill="none"
-            stroke="#000000"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            @click="updateAttr('quantity', quantity > 0 ? quantity + 1 : quantity)"
+  <div class="product-item">
+    <div class="left">
+      <img :src="item.img" />
+      <div>
+        <p class="title" style="margin-top: 0px;">{{item.title}}</p>
+        <p><span>Color: </span><span class="attr-value">{{item.color}}</span></p>
+        <p><span>Size: </span><span class="attr-value">{{item.size}}</span></p>
+        <p>
+          <span 
+            class="remove-btn"
+            @click="$emit('onRemove', item)"
           >
-            <use href="../assets/icon/feather-sprite.svg#plus"/>
-          </svg>
-          <input 
-            type="number"
-            :value="quantity"
-            @input="(event) => updateAttr('quantity', event.target.value)"
-          />
-          <svg
-            width="10"
-            height="13"
-            fill="none"
-            stroke="#000000"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            @click="updateAttr('quantity', quantity > 0 ? quantity - 1 : quantity)"
-          >
-            <use href="../assets/icon/feather-sprite.svg#minus"/>
-          </svg>
-        </div>
-        <p class="sub-total">${{toFloat2}}</p>
+            Remove
+          </span>
+        </p>
       </div>
     </div>
-  </header>
+    <div class="right">
+      <div class="quantity-input">
+        <svg
+          width="13"
+          height="13"
+          fill="none"
+          stroke="#000000"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          @click="updateAttr('quantity', quantity > 0 ? quantity + 1 : quantity)"
+        >
+          <use href="../assets/icon/feather-sprite.svg#plus"/>
+        </svg>
+        <input 
+          type="number"
+          :value="quantity"
+          @input="(event) => updateAttr('quantity', event.target.value)"
+        />
+        <svg
+          width="10"
+          height="13"
+          fill="none"
+          stroke="#000000"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          @click="updateAttr('quantity', quantity > 0 ? quantity - 1 : quantity)"
+        >
+          <use href="../assets/icon/feather-sprite.svg#minus"/>
+        </svg>
+      </div>
+      <p class="sub-total">${{toFloat2}}</p>
+    </div>
+  </div>
 </template>
 
 <script>

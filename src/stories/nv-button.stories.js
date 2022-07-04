@@ -4,8 +4,7 @@ export default {
   title: 'Components/NvButton',
   component: NvButton,
   argTypes: {
-    size: { control: { type: 'select', options: ['small', 'medium', 'large'] } },
-    onClick: {},
+    size: { control: { type: 'select', options: ['small', 'medium', 'large'] } }
   },
 };
 
