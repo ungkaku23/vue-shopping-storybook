@@ -1,0 +1,16 @@
+@font-face {
+  font-family: "Gilroy-SemiBold";
+  src: url(../assets/font/Gilory-Semi-Bold.ttf)
+    format("truetype");
+  font-weight: 600;
+}
+
+.wrapper {
+}
+
+h3 {
+  font-size: 30px;
+  line-height: 35px;
+  color: #000000;
+  font-family: 'Gilroy-SemiBold'; 
+}

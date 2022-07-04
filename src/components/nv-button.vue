@@ -3,11 +3,11 @@
 </template>
 
 <script>
-import './button.css';
+import './nv-button.css';
 import { reactive, computed } from 'vue';
 
 export default {
-  name: 'my-button',
+  name: 'nv-button',
 
   props: {
     label: {

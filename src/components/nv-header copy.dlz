@@ -21,22 +21,22 @@
         <h1>Acme</h1>
       </div>
       <div>
-        <my-button size="small" @click="$emit('logout')" label="Log out" v-if="user" />
-        <my-button size="small" @click="$emit('login')" label="Log in" v-if="!user" />
-        <my-button primary size="small" @click="$emit('createAccount')" label="Sign up" v-if="!user" />
+        <nv-button size="small" @click="$emit('logout')" label="Log out" v-if="user" />
+        <nv-button size="small" @click="$emit('login')" label="Log in" v-if="!user" />
+        <nv-button primary size="small" @click="$emit('createAccount')" label="Sign up" v-if="!user" />
       </div>
     </div>
   </header>
 </template>
 
 <script>
-import './header.css';
-import MyButton from './Button.vue';
+import './nv-header.css';
+import NvButton from '../components/nv-button.vue';
 
 export default {
-  name: 'my-header',
+  name: 'nv-header',
 
-  components: { MyButton },
+  components: { NvButton },
 
   props: {
     user: {

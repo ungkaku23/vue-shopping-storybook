@@ -1,6 +1,6 @@
 <template>
   <article>
-    <my-header
+    <nv-header
       :user="user"
       @login="$emit('login')"
       @logout="$emit('logout')"
@@ -59,13 +59,13 @@
 </template>
 
 <script>
-import './page.css';
-import MyHeader from './Header.vue';
+import './shopping-cart.css';
+import NvHeader from '../components/nv-header.vue';
 
 export default {
-  name: 'my-page',
+  name: 'shopping-cart',
 
-  components: { MyHeader },
+  components: { NvHeader },
 
   props: {
     user: {
