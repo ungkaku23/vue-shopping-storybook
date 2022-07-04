@@ -1,6 +1,6 @@
 <template>
   <article>
-    <section>
+    <section class="shopping-cart">
       <product-item
         v-for="(item, index) in state.products"
         :item="item"
@@ -9,7 +9,24 @@
       />
 
       <div class="summary">
-        
+        <h3 class="title">
+          Order Summery
+        </h3>
+        <div>
+          <span class="attr-label">Sub Total:</span>
+          <span class="attr-value">$277.00 USD</span>
+        </div>
+        <div>
+          <span class="attr-label">Shipping:</span>
+          <span>
+            <span class="attr-value">$277.00 USD</span>
+            <span v-else >$277.00 USD</span>
+          </span>
+        </div>
+        <div>
+          <span class="attr-label">Total:</span>
+          <span class="attr-value">$277.00 USD</span>
+        </div>
       </div>
     </section>
   </article>
@@ -28,15 +45,22 @@ export default {
   props: {
     products: {
       type: Object
+    },
+    shippingMode: {
+      type: String
     }
   },
 
   setup(props, { emit }) {
     props = reactive(props);
-    const state = ref({ products: [] })
+    const state = ref({ 
+      products: [],
+      shippingMode: "free" 
+    });
     
     onMounted(() => {
-      state.value.products = props.products
+      state.value.products = props.products;
+      state.value.shippingMode = props.shippingMode
     })
 
     return {

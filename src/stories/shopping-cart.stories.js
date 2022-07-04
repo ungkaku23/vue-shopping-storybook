@@ -14,11 +14,12 @@ const Template = (args) => ({
     return { ...args };
   },
   // Then, those values can be accessed directly in the template
-  template: '<shopping-cart :products="products"/>',
+  template: '<shopping-cart :products="products" :shippingMode="shippingMode"/>',
 });
 
 export const Standard = Template.bind({});
 Standard.args = {
+  shippingMode: "free",
   products: [{
     id: 1,
     img: "https://dummyimage.com/500x500/000/fff.png&text=GRE",
