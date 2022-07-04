@@ -20,6 +20,7 @@ const Template = (args) => ({
 export const Standard = Template.bind({});
 Standard.args = {
   item: {
+    id: 1,
     img: "https://dummyimage.com/500x500/000/fff.png&text=GRE",
     title: "Winter Collection",
     description: "lorem ipsum sumlo rewo eiolantes guterian",

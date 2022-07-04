@@ -7,7 +7,14 @@
           <p class="title" style="margin-top: 0px;">{{item.title}}</p>
           <p><span>Color: </span><span class="attr-value">{{item.color}}</span></p>
           <p><span>Size: </span><span class="attr-value">{{item.size}}</span></p>
-          <p><span class="remove-btn">Remove</span></p>
+          <p>
+            <span 
+              class="remove-btn"
+              @click="$emit('onRemove', item)"
+            >
+              Remove
+            </span>
+          </p>
         </div>
       </div>
       <div class="right">
@@ -20,13 +27,13 @@
             stroke-width="3"
             stroke-linecap="round"
             stroke-linejoin="round"
-            @click="updateAttr('quantity', item.quantity > 0 ? item.quantity + 1 : item.quantity)"
+            @click="updateAttr('quantity', quantity > 0 ? quantity + 1 : quantity)"
           >
             <use href="../assets/icon/feather-sprite.svg#plus"/>
           </svg>
           <input 
             type="number"
-            :value="item.quantity"
+            :value="quantity"
             @input="(event) => updateAttr('quantity', event.target.value)"
           />
           <svg
@@ -37,7 +44,7 @@
             stroke-width="4"
             stroke-linecap="round"
             stroke-linejoin="round"
-            @click="updateAttr('quantity', item.quantity > 0 ? item.quantity - 1 : item.quantity)"
+            @click="updateAttr('quantity', quantity > 0 ? quantity - 1 : quantity)"
           >
             <use href="../assets/icon/feather-sprite.svg#minus"/>
           </svg>
@@ -49,17 +56,11 @@
 </template>
 
 <script>
-import { reactive, computed } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import './product-item.css';
 
 export default {
   name: 'product-item',
-
-  data() {
-    return {
-      temp: 1,
-    }
-  },
 
   props: {
     item: {
@@ -67,26 +68,23 @@ export default {
     },
   },
 
-  // computed: {
-  //   toFloat2() {
-  //     return (this.item.price * this.item.quantity).toFixed(2);
-  //   } "quantity", item.quantity > 0 ? item.quantity - 1 : item.quantity)
-  // },
-
   emits: ['onUpdate'],
 
   setup(props, { emit }) {
     props = reactive(props);
-    
+    const quantity = ref(props.item.quantity);
+
     return {
-      toFloat2: computed(() => (props.item.price * props.item.quantity).toFixed(2)),
+      quantity,
+      toFloat2: computed(() => (props.item.price * quantity.value).toFixed(2)),
       updateAttr(field, value) {
+        field === "quantity" ? quantity.value = value : null;
         emit('onUpdate', {
           ...props.item,
-          [field], value
+          [field]: value
         });
       },
     };
-  },
+  }
 };
 </script>
