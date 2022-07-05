@@ -1,7 +1,17 @@
 <template>
   <section class="checkout-shipping">
     <h4 class="checkout-subtitle">Shipping Details</h4>
-    <div><nv-input fullWidth class="full-width" label="Full Name"/></div>
+    <nv-input 
+      fullWidth 
+      label="Full Name"
+      @change="inputChanged"
+    />
+    <nv-input 
+      fullWidth 
+      label="Delivery Address"
+      type="autocomplete"
+      @change="inputChanged"
+    />
   </section>
 </template>
 
@@ -39,6 +49,9 @@ export default {
       state,
       saveAndContinue() {
         console.log("hey")
+      },
+      inputChanged(val) {
+        console.log("input changed: ", val);
       }
     };
   }

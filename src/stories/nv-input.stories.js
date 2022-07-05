@@ -21,5 +21,12 @@ const Template = (args) => ({
 
 export const Standard = Template.bind({});
 Standard.args = {
-  label: 'Full Name'
+  label: 'Full Name',
+  type: 'text'
+};
+
+export const AutoComplete = Template.bind({});
+AutoComplete.args = {
+  label: 'Delivery Address',
+  type: 'autocomplete'
 };

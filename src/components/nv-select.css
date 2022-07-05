@@ -1,0 +1,87 @@
+@font-face {
+  font-family: "Gilroy-Medium";
+  src: url(../assets/font/Gilroy-Medium.ttf)
+    format("truetype");
+  font-weight: 500;
+}
+
+*:focus {
+  outline: none;
+}
+
+.nv-select-label {
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 137.8%;
+  color: #929292;
+  margin-bottom: 9px;
+}
+
+.select-small select {
+  padding: 12px 38px 12px 13px;
+}
+.select-medium select {
+  padding: 13px 39px 13px 14px;
+}
+.select-large select {
+  padding: 14px 40px 14px 15px;
+}
+
+
+.nv-select {
+  width: 150px;
+  height: 20px;
+  border: solid 1px black;
+  border-radius: 5px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 15px;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.nv-select .select-value {
+  border: none;
+  background: transparent;
+  width: calc(100%);
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 137.8%;
+  color: #000000;
+}
+
+.nv-select .options {
+  width: 100%;
+  position: absolute;
+  top: 43px;
+  left: -1px;
+  border: solid 1px black;
+  background: white;
+  height: 200px;
+  overflow: auto;
+}
+
+.nv-select .option {
+  width: calc(100% - 30px);
+  padding: 15px;
+  overflow-x: hidden;
+  cursor: pointer;
+  border-bottom: solid 1px black;
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 137.8%;
+}
+
+.nv-select .option:nth-last-child(1) {
+  border-bottom: none;
+}

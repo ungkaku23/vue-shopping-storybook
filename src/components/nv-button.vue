@@ -1,5 +1,5 @@
 <template>
-  <button type="button" :class="classes" @click="onClick" :style="style">{{ label }}</button>
+  <button type="button" :class="classes" @click="onClick" :style="styles">{{ label }}</button>
 </template>
 
 <script>
@@ -41,7 +41,7 @@ export default {
         'btn-secondary': !props.primary,
         [`btn-${props.size || 'medium'}`]: true,
       })),
-      style: computed(() => props.style),
+      styles: computed(() => props.style),
       onClick() {
         emit('click');
       }

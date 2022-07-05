@@ -57,6 +57,7 @@ import { ref, reactive, computed, onMounted } from 'vue';
 import './shopping-cart.css';
 import ProductItem from '../components/product-item.vue';
 import NvButton from '../components/nv-button.vue';
+// import { useStore } from 'vuex';
 
 export default {
   name: 'shopping-cart',
@@ -76,6 +77,8 @@ export default {
   },
 
   setup(props, { emit }) {
+    // const store = useStore();
+    // console.log("store: ", store);
     props = reactive(props);
     const state = ref({ 
       products: [],

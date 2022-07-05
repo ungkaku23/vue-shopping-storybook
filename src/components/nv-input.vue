@@ -1,6 +1,20 @@
 <template>
   <div class="nv-input-label" v-if="label !== ''">{{label}}</div>
-  <input :type="type" :class="classes" @change="onChange" :style="style" />
+  <GMapAutocomplete
+    v-if="type === 'autocomplete'"
+    :class="classes"
+    :style="style"
+    placeholder="Type your address"
+    @place_changed="setPlace"
+  >
+  </GMapAutocomplete>
+  <input 
+    v-else 
+    :type="type" 
+    :class="classes" 
+    @change="onChange" 
+    :style="style" 
+  />
 </template>
 
 <script>
@@ -68,8 +82,23 @@ export default {
       }),
       type: computed(() => props.type),
       label: computed(() => props.label),
-      onChange() {
-        emit('change');
+      onChange(e) {
+        emit('change', {
+          type: props.type,
+          value: e.target.value
+        });
+      },
+      setPlace(place) {
+        const address = place.formatted_address;
+        const country = place.address_components.find(o => o.types.indexOf("country") !== -1).long_name;
+        const postalCode = place.address_components.find(o => o.types.indexOf("postal_code") !== -1).long_name;
+        const state = place.address_components.find(o => o.types.indexOf("administrative_area_level_1") !== -1).short_name;
+        emit('change', {
+          type: props.type,
+          value: {
+            address, country, postalCode, state
+          }
+        });
       }
     }
   },

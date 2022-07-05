@@ -19,6 +19,7 @@
     "init-msw": "msw init public/"
   },
   "dependencies": {
+    "@fawmi/vue-google-maps": "^0.9.72",
     "core-js": "^3.8.3",
     "vue": "3",
     "vuex": "^4.0.2"
