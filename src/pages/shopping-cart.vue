@@ -79,6 +79,7 @@ export default {
   setup(props, { emit }) {
     // const store = useStore();
     // console.log("store: ", store);
+
     props = reactive(props);
     const state = reactive({ 
       products: props.products,

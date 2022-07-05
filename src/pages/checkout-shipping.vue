@@ -15,11 +15,18 @@
       :value="state.shippingDetails.deliveryAddress"
       @change="setDeliveryAddress"
     />
+    <nv-select 
+      fullWidth 
+      label="Country"
+      type="autocomplete"
+      @change="setCountry"
+    />
   </section>
 </template>
 
 <script>
 import { ref, reactive, computed, onMounted } from 'vue';
+import axios from 'axios';
 import './checkout-shipping.css';
 import NvButton from '../components/nv-button.vue';
 import NvInput from '../components/nv-input.vue';
@@ -45,9 +52,20 @@ export default {
     const state = reactive({ 
       shippingDetails: props.shippingDetails
     });
+
+    const loadCountries = () => {
+      axios.get("https://restcountries.com/v3.1/all")
+        .then((response) => {
+          console.log("response", response);
+        })
+        .catch((err) => {
+
+        });
+    }
     
     onMounted(() => {
-    })
+      loadCountries();
+    });
 
     return {
       state,
@@ -62,6 +80,9 @@ export default {
         state.shippingDetails["country"] = val.value.country;
         state.shippingDetails["state"] = val.value.state;
         state.shippingDetails["postalCode"] = val.value.postalCode;
+      },
+      setCountry(val) {
+        console.log("country: ", val);
       }
     };
   }
