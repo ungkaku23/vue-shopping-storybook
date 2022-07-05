@@ -90,20 +90,18 @@ export default {
     props = reactive(props);
     const toggle = ref(false);
 
-    const state = ref({ 
-      selectVal: "",
-      options: []
+    const state = reactive({ 
+      nValue: props.value,
+      options: props.options
     });
     
     onMounted(() => {
-      state.value.selectVal = props.value;
-      state.value.options = props.options;
     })
 
     const selectLabel = computed(() => {
-      if (state.value.selectVal !== "" ) {
-        let found = props.options.find(o => o.value === state.value.selectVal);
-        return found !== undefined ? found.label : state.value.selectVal;
+      if (state.nValue !== "" ) {
+        let found = props.options.find(o => o.value === state.nValue);
+        return found !== undefined ? found.label : state.nValue;
       } else {
         return "";
       }
@@ -138,23 +136,23 @@ export default {
       label: computed(() => props.label),
       inputChange(e) {
         toggle.value = true;
-        state.value.selectVal = e.target.value;
-        state.value.options = props.options.filter(o => o.label.includes(e.target.value) || o.value.includes(e.target.value));
+        state.nValue = e.target.value;
+        state.options = props.options.filter(o => o.label.includes(e.target.value) || o.value.includes(e.target.value));
       },
       toggleDropdown() {
         toggle.value = !toggle.value;
       },
       onOptionClicked(obj) {
-        state.value.selectVal = obj.value;
+        state.nValue = obj.value;
         this.toggleDropdown();
-        emit('change', state.value.selectVal);
+        emit('change', state.nValue);
       },
       focusedOut() {
         setTimeout(() => {
           toggle.value = false;
-          let found = props.options.find(o => o.value === state.value.selectVal);
-          found !== undefined ? null : state.value.selectVal = "";
-          emit('change', state.value.selectVal);
+          let found = props.options.find(o => o.value === state.nValue);
+          found !== undefined ? null : state.nValue = "";
+          emit('change', state.nValue);
         }, 100)
       }
     }

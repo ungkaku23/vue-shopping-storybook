@@ -6,12 +6,14 @@
     :style="style"
     placeholder="Type your address"
     @place_changed="setPlace"
+    :value="state.nValue"
   >
   </GMapAutocomplete>
   <input 
     v-else 
     :type="type" 
     :class="classes" 
+    :value="state.nValue"
     @change="onChange" 
     :style="style" 
   />
@@ -19,7 +21,7 @@
 
 <script>
 import './nv-input.css';
-import { reactive, computed } from 'vue';
+import { reactive, computed, onMounted, ref } from 'vue';
 
 export default {
   name: 'nv-input',
@@ -31,6 +33,10 @@ export default {
     },
     label: {
       type: String
+    },
+    value: {
+      type: String,
+      default: ""
     },
     type: {
       type: String,
@@ -57,7 +63,16 @@ export default {
 
   setup(props, { emit }) {
     props = reactive(props);
+
+    const state = reactive({ 
+      nValue: props.value
+    });
+    
+    onMounted(() => {
+    });
+
     return {
+      state,
       classes: computed(() => ({
         "nv-input": true,
         [props.class]: true,
@@ -83,6 +98,7 @@ export default {
       type: computed(() => props.type),
       label: computed(() => props.label),
       onChange(e) {
+        state.nValue = e.target.value;
         emit('change', {
           type: props.type,
           value: e.target.value
@@ -90,9 +106,15 @@ export default {
       },
       setPlace(place) {
         const address = place.formatted_address;
-        const country = place.address_components.find(o => o.types.indexOf("country") !== -1).long_name;
-        const postalCode = place.address_components.find(o => o.types.indexOf("postal_code") !== -1).long_name;
-        const state = place.address_components.find(o => o.types.indexOf("administrative_area_level_1") !== -1).short_name;
+        const country = place.address_components.find(o => o.types.indexOf("country") !== -1) !== undefined
+          ? place.address_components.find(o => o.types.indexOf("country") !== -1).long_name
+          : "";
+        const postalCode = place.address_components.find(o => o.types.indexOf("postal_code") !== -1) !== undefined
+          ? place.address_components.find(o => o.types.indexOf("postal_code") !== -1).long_name
+          : "";
+        const state = place.address_components.find(o => o.types.indexOf("administrative_area_level_1") !== -1) !== undefined
+          ? place.address_components.find(o => o.types.indexOf("administrative_area_level_1") !== -1).short_name
+          : "";
         emit('change', {
           type: props.type,
           value: {

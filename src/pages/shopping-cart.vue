@@ -80,46 +80,44 @@ export default {
     // const store = useStore();
     // console.log("store: ", store);
     props = reactive(props);
-    const state = ref({ 
-      products: [],
-      shippingMode: "free" 
+    const state = reactive({ 
+      products: props.products,
+      shippingMode: props.shippingMode 
     });
     
     onMounted(() => {
-      state.value.products = props.products;
-      state.value.shippingMode = props.shippingMode
     })
 
-    const subTotal = computed(() => state.value.products.reduce((total, o) => {
+    const subTotal = computed(() => state.products.reduce((total, o) => {
       total += o.price * o.quantity;
       return total;
     }, 0));
 
-    const total = computed(() => subTotal.value + (state.value.shippingMode === 'free' ? 0 : 9.90));
+    const total = computed(() => subTotal.value + (state.shippingMode === 'free' ? 0 : 9.90));
 
     return {
       state,
       subTotal,
       total,
       onUpdate(item, index) {
-        state.value.products[index] = item;
+        state.products[index] = item;
         emit('onUpdateCart', {
-          products: state.value.products,
-          shippingMode: state.value.shippingMode
+          products: state.products,
+          shippingMode: state.shippingMode
         });
       },
       onRemove(item) {
-        state.value.products = state.value.products.filter(o => o.id !== item.id);
+        state.products = state.products.filter(o => o.id !== item.id);
         emit('onUpdateCart', {
-          products: state.value.products,
-          shippingMode: state.value.shippingMode
+          products: state.products,
+          shippingMode: state.shippingMode
         });
       },
       updateShippingMode(mode) {
-        state.value.shippingMode = mode;
+        state.shippingMode = mode;
         emit('onUpdateCart', {
-          products: state.value.products,
-          shippingMode: state.value.shippingMode
+          products: state.products,
+          shippingMode: state.shippingMode
         });
       },
       doCheckout() {
