@@ -1,7 +1,7 @@
 import NvHeader from '../components/nv-header.vue';
 
 export default {
-  title: 'Components/NvHeader',
+  title: 'Components/Header',
   component: NvHeader,
 };
 
@@ -14,15 +14,17 @@ const Template = (args) => ({
     return { ...args };
   },
   // Then, the spread values can be accessed directly in the template
-  template: '<nv-header :isCheckout="isCheckout" />',
+  template: '<nv-header :isCheckout="isCheckout" :label="label" />',
 });
 
 export const ShoppingCart = Template.bind({});
 ShoppingCart.args = {
-  isCheckout: false
+  isCheckout: false,
+  label: "Shopping Cart"
 };
 
 export const Checkout = Template.bind({});
 Checkout.args = {
-  isCheckout: true
+  isCheckout: true,
+  label: "Checkout"
 };

@@ -16,7 +16,7 @@
         </svg>
       </div>
       <div>
-        <h3>Shopping Cart</h3>
+        <h3>{{label}}</h3>
       </div>
     </div>
   </header>
@@ -36,9 +36,14 @@ export default {
   props: {
     isCheckout: {
       type: Boolean,
+      default: false
     },
+    label: {
+      type: String,
+      default: "Shopping Cart"
+    }
   },
 
-  emits: ['login', 'logout', 'createAccount'],
+  emits: ['back'],
 };
 </script>

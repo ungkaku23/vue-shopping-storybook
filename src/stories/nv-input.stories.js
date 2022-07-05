@@ -1,8 +1,8 @@
-import NvButton from '../components/nv-button.vue';
+import NvInput from '../components/nv-input.vue';
 
 export default {
-  title: 'Components/Button',
-  component: NvButton,
+  title: 'Components/Input',
+  component: NvInput,
   argTypes: {
     size: { control: { type: 'select', options: ['small', 'medium', 'large'] } }
   },
@@ -10,22 +10,16 @@ export default {
 
 const Template = (args) => ({
   // Components used in your story `template` are defined in the `components` object
-  components: { NvButton },
+  components: { NvInput },
   // The story's `args` need to be mapped into the template through the `setup()` method
   setup() {
     return { args };
   },
   // And then the `args` are bound to your component with `v-bind="args"`
-  template: '<nv-button v-bind="args" />',
+  template: '<nv-input v-bind="args" />',
 });
 
-export const Primary = Template.bind({});
-Primary.args = {
-  primary: true,
-  label: 'Button',
-};
-
-export const Secondary = Template.bind({});
-Secondary.args = {
-  label: 'Button',
+export const Standard = Template.bind({});
+Standard.args = {
+  label: 'Full Name'
 };

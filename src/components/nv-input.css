@@ -1,0 +1,37 @@
+@font-face {
+  font-family: "Gilroy-Medium";
+  src: url(../assets/font/Gilroy-Medium.ttf)
+    format("truetype");
+  font-weight: 500;
+}
+
+*:focus {
+  outline: none;
+}
+
+.nv-input-label {
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 137.8%;
+  color: #929292;
+  margin-bottom: 9px;
+}
+
+.nv-input {
+  border: 1px solid #000000;
+  border-radius: 8px;
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 137.8%;
+  color: #000000;
+}
+
+.input-small {
+  padding: 12px 13px;
+}
+.input-medium {
+  padding: 13px 14px;
+}
+.input-large {
+  padding: 14px 15px;
+}
