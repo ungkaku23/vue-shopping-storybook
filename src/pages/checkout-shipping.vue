@@ -46,7 +46,11 @@
     />
     <h4 class="checkout-subtitle" style="margin-top: 20px; margin-bottom: 6px">Choose Shipping Mode</h4>
     <p class="checkout-description">Choose a shipping which deliver faster</p>
-    
+    <nv-radiobox
+      :options="radioboxes"
+      :value="state.shippingDetails.shippingMode"
+      @change="setShippingMode"
+    />
   </section>
 </template>
 
@@ -59,6 +63,7 @@ import NvInput from '../components/nv-input.vue';
 import NvSelect from '../components/nv-select.vue';
 import LoadingSpinner from '../components/loading-spinner.vue';
 import NvCheckbox from '../components/nv-checkbox.vue';
+import NvRadiobox from '../components/nv-radiobox.vue';
 
 export default {
   name: 'checkout-shipping',
@@ -68,13 +73,14 @@ export default {
     NvInput,
     NvSelect,
     LoadingSpinner,
-    NvCheckbox
+    NvCheckbox,
+    NvRadiobox
   },
 
   props: {
     shippingDetails: {
       type: Object
-    },
+    }
   },
 
   setup(props, { emit }) {
@@ -147,6 +153,15 @@ export default {
         value: "Shipping address same as billing address",
         label: "Shipping address same as billing address"
       }],
+      radioboxes: [{
+        value: "free",
+        label: "Store pickup (in 20 min)",
+        rightSideInfo: "Free"
+      }, {
+        value: "quick",
+        label: "Delivery at home (2-4 days)",
+        rightSideInfo: "$9.90"
+      }],
       isBA: computed(() => state.shippingDetails.isSameAsBillingAddress ? ["Shipping address same as billing address"] : []),
       saveAndContinue() {
         console.log("hey")
@@ -172,6 +187,9 @@ export default {
         val.indexOf("Shipping address same as billing address") !== -1 
           ? state.shippingDetails["isSameAsBillingAddress"] = true 
           : state.shippingDetails["isSameAsBillingAddress"] = false;
+      },
+      setShippingMode(val) {
+        state.shippingDetails["shippingMode"] = val;
       }
     };
   }

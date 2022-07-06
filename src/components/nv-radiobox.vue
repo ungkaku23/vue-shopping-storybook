@@ -6,21 +6,29 @@
     :style="style"
     @click="onChange(option)"
   >
-    <div :class="`tick-box ${state.nValue === option.value ? 'selected' : ''}`">
-      <svg
-        width="22"
-        height="22"
-        fill="none"
-        stroke="#ffffff"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <use href="../assets/icon/feather-sprite.svg#check"/>
-      </svg>
+    <div class="tick-box-label">
+      <div :class="`tick-box ${state.nValue === option.value ? 'selected' : ''}`">
+        <svg
+          width="18"
+          height="18"
+          fill="none"
+          stroke="#ffffff"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <use href="../assets/icon/feather-sprite.svg#check"/>
+        </svg>
+      </div>
+      <div class="label" :style="`color: ${state.nValue === option.value ? '#000000' : '#838383'}`">
+        {{option.label}}
+      </div>
     </div>
-    <div class="label">
-      {{option.label}}
+    <div 
+      v-if="option.hasOwnProperty('rightSideInfo')"
+      :class="`right-side-info ${state.nValue === option.value ? 'selected' : ''}`"
+    >
+      <div></div>{{option.rightSideInfo}}
     </div>
   </div>
 </template>
@@ -33,7 +41,7 @@ export default {
   name: 'nv-radiobox',
 
   props: {
-    fullWidth :{
+    fullWidth: {
       type: Boolean,
       default: false
     },

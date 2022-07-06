@@ -5,37 +5,73 @@
   font-weight: 500;
 }
 
+@font-face {
+  font-family: "Gilroy-SemiBold";
+  src: url(../assets/font/Gilory-Semi-Bold.ttf)
+    format("truetype");
+  font-weight: 600;
+}
+
 .nv-radiobox {
   font-family: 'Gilroy-Medium';
   font-size: 14px;
   line-height: 137.8%;
-  color: #000000;
+  color: #838383;
   margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nv-radiobox .right-side-info {
+  font-family: 'Gilroy-SemiBold'; 
+  font-weight: 600;
   display: flex;
   align-items: center;
 }
 
-.nv-radiobox .tick-box {
+.nv-radiobox .right-side-info div {
+  width: 4px;
+  height: 4px;
+  background: #838383;
+  border-radius: 100%;
+  margin-right: 12px;
+}
+
+.nv-radiobox .tick-box-label {
+  display: flex;
+  align-items: center;
+}
+
+.nv-radiobox .tick-box-label .tick-box {
   width: 24px;
   height: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: solid 1px black;
+  border: solid 1px #838383;
   border-radius: 38px;
   cursor: pointer;
   background-color: white;
 }
 
-.nv-radiobox .tick-box.selected{
+.nv-radiobox .tick-box-label .tick-box.selected {
   background-color: #000000;
 }
 
-.nv-radiobox .label {
+.nv-radiobox .right-side-info.selected div {
+  background-color: #000000;
+}
+
+.nv-radiobox .right-side-info.selected {
+  color: #000000;
+}
+
+.nv-radiobox .tick-box-label .label {
   font-family: 'Gilroy-Medium';
   font-size: 14px;
   line-height: 137.8%;
-  color: black;
+  color: #838383;
   margin-left: 9px;
   -webkit-user-select: none; /* Safari */        
   -moz-user-select: none; /* Firefox */
@@ -44,15 +80,15 @@
   cursor: pointer;
 }
 
-.nv-radiobox.radiobox-small .tick-box {
+.nv-radiobox.radiobox-small .tick-box-label .tick-box {
   width: 22px;
   height: 22px;
 }
-.nv-radiobox.radiobox-medium .tick-box {
+.nv-radiobox.radiobox-medium .tick-box-label .tick-box {
   width: 23px;
   height: 23px;
 }
-.nv-radiobox.radiobox-large .tick-box {
+.nv-radiobox.radiobox-large .tick-box-label .tick-box {
   width: 24px;
   height: 24px;
 }

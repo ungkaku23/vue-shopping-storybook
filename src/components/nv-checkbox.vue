@@ -8,18 +8,18 @@
   >
     <div :class="`tick-box ${state.nValue.indexOf(option.value) !== -1 ? 'selected' : ''}`">
       <svg
-        width="22"
-        height="22"
+        width="18"
+        height="18"
         fill="none"
         stroke="#ffffff"
-        stroke-width="2"
+        stroke-width="3"
         stroke-linecap="round"
         stroke-linejoin="round"
       >
         <use href="../assets/icon/feather-sprite.svg#check"/>
       </svg>
     </div>
-    <div class="label">
+    <div class="label" :style="`color: ${state.nValue.indexOf(option.value) !== -1 ? '#000000' : '#838383'}`">
       {{option.label}}
     </div>
   </div>
