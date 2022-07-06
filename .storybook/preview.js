@@ -3,6 +3,9 @@ import store from '../src/store'
 import VueGoogleMaps from '@fawmi/vue-google-maps'
 import { v4 as uuidv4 } from 'uuid';
 
+import Maska from 'maska';
+app.use(Maska)
+
 app.use(store);
 
 app.use(VueGoogleMaps, {
@@ -11,7 +14,7 @@ app.use(VueGoogleMaps, {
       // language: 'de',
       libraries: "places"
   },
-})
+});
 
 app.mixin({
   methods: {

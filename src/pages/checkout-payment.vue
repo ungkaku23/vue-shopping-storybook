@@ -4,6 +4,7 @@
       v-if="state.isLoading" 
       :label="state.loadingLabel" 
     />
+    {{state.paymentDetails}}
     <h4 
       class="checkout-subtitle" 
       style="margin-top: 20px; margin-bottom: 6px"
@@ -30,6 +31,51 @@
       label="Card Holder Name"
       :value="state.paymentDetails.cardHolderName"
       @input="setCardHolderName"
+    />
+
+    <nv-input 
+      fullWidth 
+      label="Card Number"
+      :value="state.paymentDetails.cardNumber"
+      @input="setCardNumber"
+      type="mask"
+      tokens="#### #### #### ####"
+      placeholder="4242 4242 4242 4242"
+    />
+
+    <div class="expiration-security">
+      <div class="es-widget">
+        <nv-input 
+          fullWidth 
+          label="Expitation Date"
+          :value="state.paymentDetails.expirationDate"
+          @input="setExpirationDate"
+          type="mask"
+          tokens="##/##"
+          placeholder="MM/YY"
+        />
+      </div>
+      <div class="es-widget">
+        <nv-input 
+          fullWidth 
+          label="Security Code"
+          :value="state.paymentDetails.securityCode"
+          @input="setSecurityCode"
+          type="mask"
+          tokens="###"
+          placeholder="CVC"
+        />
+      </div>
+    </div>
+
+    <nv-checkbox
+      :options="checkboxes"
+      :value="isSP"
+      @change="setIsSavePaymentInfo"
+      :style="`
+        margin-bottom: 0px; 
+        margin-top: -10px
+      `"
     />
 
     <nv-button 
@@ -111,6 +157,11 @@ export default {
 
     return {
       state,
+      checkboxes: [{
+        value: "Save this card for future faster checkout",
+        label: "Save this card for future faster checkout"
+      }],
+      isSP: computed(() => state.paymentDetails.isSavePaymentInfo ? ["Save this card for future faster checkout"] : []),
       radioboxes: [{
         value: "paypal",
         label: "PayPal",
@@ -121,15 +172,34 @@ export default {
         rightSideImg: "card.png"
       }],
       validator,
-      continuePayment() {
-        state.isDirtyForm = true;
-        if (validator("", "")) {
-          console.log("shipping--: ", state.shippingDetails);
-          console.log("billing--: ", state.billingDetails);
+      setIsSavePaymentInfo(val) {
+        if (val.indexOf("Save this card for future faster checkout") !== -1) {
+          state.paymentDetails["isSavePaymentInfo"] = true;
+        } else {
+          state.paymentDetails["isSavePaymentInfo"] = false;
         }
       },
-      setPaymentMethod() {
-
+      setPaymentMethod(val) {
+        state.paymentDetails["method"] = val;
+      },
+      setCardHolderName(val) {
+        state.paymentDetails["cardHolderName"] = val.value;
+      },
+      setCardNumber(val) {
+        state.paymentDetails["cardNumber"] = val.value;
+      },
+      setExpirationDate(val) {
+        state.paymentDetails["expirationDate"] = val.value;
+      },
+      setSecurityCode(val) {
+        state.paymentDetails["securityCode"] = val.value;
+      },
+      continuePayment() {
+        state.isDirtyForm = true;
+        // if (validator("", "")) {
+        //   console.log("shipping--: ", state.paymentDetails);
+        //   console.log("billing--: ", state.billingDetails);
+        // }
       }
     };
   }

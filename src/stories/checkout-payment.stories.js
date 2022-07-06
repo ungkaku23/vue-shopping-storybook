@@ -23,6 +23,10 @@ export const Standard = Template.bind({});
 Standard.args = {
   paymentDetails: {
     method: "paypal",
-    cardHolderName: ""
+    cardHolderName: "",
+    cardNumber: "",
+    expirationDate: "",
+    securityCode: "",
+    isSavePaymentInfo: true
   }
 }

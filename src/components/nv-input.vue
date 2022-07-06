@@ -4,12 +4,22 @@
     v-if="type === 'autocomplete'"
     :class="classes"
     :style="style"
-    placeholder="Type your address"
+    :placeholder="placeholders"
     @place_changed="setPlace"
     @input="onPlaceInput"
     :value="state.nValue"
   >
   </GMapAutocomplete>
+  <input 
+    v-else-if="type === 'mask'" 
+    v-maska="tokens"
+    :class="classes" 
+    :value="state.nValue"
+    @change="onChange" 
+    @input="onInput" 
+    :style="style" 
+    :placeholder="placeholders"
+  />
   <input 
     v-else 
     :type="type" 
@@ -18,6 +28,7 @@
     @change="onChange" 
     @input="onInput" 
     :style="style" 
+    :placeholder="placeholders"
   />
 </template>
 
@@ -59,6 +70,14 @@ export default {
         return ['small', 'medium', 'large'].indexOf(value) !== -1;
       },
     },
+    tokens: {
+      type: String,
+      default: ""
+    },
+    placeholder: {
+      type: String,
+      default: ""
+    }
   },
 
   emits: ['change', 'input'],
@@ -75,6 +94,8 @@ export default {
 
     return {
       state,
+      tokens: computed(() => props.tokens),
+      placeholders: computed(() => props.placeholder),
       classes: computed(() => ({
         "nv-input": true,
         [props.class]: true,

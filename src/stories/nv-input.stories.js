@@ -22,11 +22,22 @@ const Template = (args) => ({
 export const Standard = Template.bind({});
 Standard.args = {
   label: 'Full Name',
-  type: 'text'
+  type: 'text',
+  placeholder: 'Input your name'
 };
 
 export const AutoComplete = Template.bind({});
 AutoComplete.args = {
   label: 'Delivery Address',
-  type: 'autocomplete'
+  type: 'autocomplete',
+  placeholder: 'Type your address'
 };
+
+export const InputMask = Template.bind({});
+InputMask.args = {
+  label: 'Card Number',
+  type: 'mask',
+  tokens: '#### #### #### ####',
+  placeholder: '4242 4242 4242 4242'
+};
+

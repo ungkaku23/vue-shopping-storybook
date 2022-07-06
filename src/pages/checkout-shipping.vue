@@ -21,6 +21,7 @@
       :value="state.shippingDetails.deliveryAddress"
       @change="setDeliveryInfos"
       @input="setDeliveryAddress"
+      placeholder="Enter your address"
     />
     <div v-if="state.isDirtyForm" class="error">{{validator("deliveryAddress", "shipping")}}</div>
     

@@ -27,6 +27,12 @@
   margin-bottom: 16px;
 }
 
+.nv-input::placeholder {
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 137.8%;
+}
+
 .input-small {
   padding: 12px 13px;
 }
