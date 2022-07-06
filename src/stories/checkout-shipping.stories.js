@@ -26,7 +26,13 @@ Standard.args = {
     deliveryAddress: "",
     country: "",
     state: "",
-    isSameAsBillingAddress: false,
+    isSameAsBillingAddress: true,
     shippingMode: "free" 
+  }, 
+  billingDetails: {
+    fullName: "",
+    deliveryAddress: "",
+    country: "",
+    state: ""
   }
 }

@@ -5,20 +5,22 @@
       :label="state.loadingLabel" 
     />
     <h4 class="checkout-subtitle">Shipping Details</h4>
-    {{ state.shippingDetails }}
     <nv-input 
       fullWidth 
       label="Full Name"
       :value="state.shippingDetails.fullName"
-      @change="setFullName"
+      @input="setFullName"
     />
+    <div v-if="state.isDirtyForm" class="error">{{validator("fullName", "shipping")}}</div>
     <nv-input 
       fullWidth 
       label="Delivery Address"
       type="autocomplete"
       :value="state.shippingDetails.deliveryAddress"
-      @change="setDeliveryAddress"
+      @change="setDeliveryInfos"
+      @input="setDeliveryAddress"
     />
+    <div v-if="state.isDirtyForm" class="error">{{validator("deliveryAddress", "shipping")}}</div>
     <div class="country-state">
       <div class="cs-widget">
         <nv-select 
@@ -28,6 +30,7 @@
           :options="state.countries"
           @change="setCountry"
         />
+        <div v-if="state.isDirtyForm" class="error">{{validator("country", "shipping")}}</div>
       </div>
       <div class="cs-widget">
         <nv-select 
@@ -37,19 +40,84 @@
           :options="state.states"
           @change="setState"
         />
+        <div v-if="state.isDirtyForm" class="error">{{validator("state", "shipping")}}</div>
       </div>
     </div>
+
+    <div 
+      v-if="!state.shippingDetails.isSameAsBillingAddress" 
+      class="billing-section"
+    >
+      <h4 class="checkout-subtitle">Billing Details</h4>
+      <nv-input 
+        fullWidth 
+        label="Full Name"
+        :value="state.billingDetails.fullName"
+        @input="setBillingFullName"
+      />
+      <div v-if="state.isDirtyForm" class="error">{{validator("fullName", "billing")}}</div>
+      <nv-input 
+        fullWidth 
+        label="Delivery Address"
+        type="autocomplete"
+        :value="state.billingDetails.deliveryAddress"
+        @change="setBillingDeliveryInfos"
+        @input="setBillingDeliveryAddress"
+      />
+      <div v-if="state.isDirtyForm" class="error">{{validator("deliveryAddress", "billing")}}</div>
+      <div class="country-state">
+        <div class="cs-widget">
+          <nv-select 
+            fullWidth 
+            label="Country"
+            :value="state.billingDetails.country"
+            :options="state.countries"
+            @change="setBillingCountry"
+          />
+          <div v-if="state.isDirtyForm" class="error">{{validator("country", "billing")}}</div>
+        </div>
+        <div class="cs-widget">
+          <nv-select 
+            fullWidth 
+            label="State"
+            :value="state.billingDetails.state"
+            :options="state.billingStates"
+            @change="setBillingState"
+          />
+          <div v-if="state.isDirtyForm" class="error">{{validator("state", "billing")}}</div>
+        </div>
+      </div>
+    </div>
+
     <nv-checkbox
       :options="checkboxes"
       :value="isBA"
       @change="setIsSameAsBillingAddress"
     />
-    <h4 class="checkout-subtitle" style="margin-top: 20px; margin-bottom: 6px">Choose Shipping Mode</h4>
+    <h4 
+      class="checkout-subtitle" 
+      style="margin-top: 20px; margin-bottom: 6px"
+    >
+      Choose Shipping Mode
+    </h4>
     <p class="checkout-description">Choose a shipping which deliver faster</p>
     <nv-radiobox
       :options="radioboxes"
       :value="state.shippingDetails.shippingMode"
       @change="setShippingMode"
+    />
+    <div 
+      class="shipping-address" 
+      :style="state.shippingDetails.shippingMode === 'quick' ? 'color: black' : ''"
+    >
+      {{state.shippingDetails.deliveryAddress}}
+    </div>
+    <nv-button 
+      primary
+      label="Continue"
+      size="large" 
+      style="width: 100%; margin: 20px 0px;"
+      @click="continuePayment"
     />
   </section>
 </template>
@@ -79,7 +147,12 @@ export default {
 
   props: {
     shippingDetails: {
-      type: Object
+      type: Object,
+      default: {}
+    },
+    billingDetails: {
+      type: Object,
+      default: {}
     }
   },
 
@@ -87,13 +160,16 @@ export default {
     props = reactive(props);
     const state = reactive({ 
       shippingDetails: props.shippingDetails,
+      billingDetails: props.billingDetails,
       loadingLabel: "Loading",
       isLoading: false,
       countries: [],
-      states: []
+      states: [],
+      billingStates: [],
+      isDirtyForm: false
     });
 
-    const loadStates = (country) => {
+    const loadStates = (country, type) => {
       state.isLoading = true;
       state.loadingLabel = "Loading states"
       axios.get("https://www.universal-tutorial.com/api/getaccesstoken", {
@@ -112,10 +188,17 @@ export default {
         })
         .then((response2) => {
           state.isLoading = false;
-          state.states = response2.data.map(o => ({
-            label: o.state_name,
-            value: o.state_name
-          }));
+          if (type === "shipping") {
+            state.states = response2.data.map(o => ({
+              label: o.state_name,
+              value: o.state_name
+            }));
+          } else {
+            state.billingStates = response2.data.map(o => ({
+              label: o.state_name,
+              value: o.state_name
+            }));
+          }
         })
         .catch((err2) => {
           state.isLoading = false;
@@ -136,11 +219,40 @@ export default {
             label: o.name.common,
             value: o.name.common
           }));
-          // state.states = response.data.
         })
         .catch((err) => {
           state.isLoading = false;
         });
+    }
+
+    const validator = (field = "", type = "") => {
+      let isValid = true;
+      let shippingErrText = '';
+      let billingErrText = '';
+
+      if (field !== "shippingMode" && field !== "isSameAsBillingAddress") {
+        if (field !== "") {
+          if (state.shippingDetails[field] === "") {
+            shippingErrText = "This is required";
+          }
+
+          if (state.billingDetails[field] === "") {
+            billingErrText = "This is required";
+          }
+          return type === "shipping" ? shippingErrText : billingErrText;
+        } else {
+          for (const key in state.shippingDetails) {
+            state.shippingDetails[key] === "" ? isValid = false : null;
+          }
+
+          for (const key in state.billingDetails) {
+            state.billingDetails[key] === "" ? isValid = false : null;
+          }
+          return isValid;
+        }
+      }
+
+      return null;
     }
     
     onMounted(() => {
@@ -163,33 +275,88 @@ export default {
         rightSideInfo: "$9.90"
       }],
       isBA: computed(() => state.shippingDetails.isSameAsBillingAddress ? ["Shipping address same as billing address"] : []),
-      saveAndContinue() {
-        console.log("hey")
-      },
       setFullName(val) {
         state.shippingDetails["fullName"] = val.value;
+        if (state.shippingDetails.isSameAsBillingAddress) {
+          state.billingDetails["fullName"] = val.value;
+        }
+      },
+      setBillingFullName(val) {
+        state.billingDetails["fullName"] = val.value;
       },
       setDeliveryAddress(val) {
+        state.shippingDetails["deliveryAddress"] = val.value.address;
+        if (state.shippingDetails.isSameAsBillingAddress) {
+          state.billingDetails["deliveryAddress"] = val.value.address;
+        }
+      },
+      setBillingDeliveryAddress(val) {
+        state.billingDetails["deliveryAddress"] = val.value.address;
+      },
+      setDeliveryInfos(val) {
         state.shippingDetails["deliveryAddress"] = val.value.address;
         state.shippingDetails["country"] = val.value.country;
         state.shippingDetails["state"] = val.value.state;
         state.shippingDetails["postalCode"] = val.value.postalCode;
-        loadStates(val.value.country);
+        loadStates(val.value.country, "shipping");
+
+        if (state.shippingDetails.isSameAsBillingAddress) {
+          state.billingDetails["deliveryAddress"] = val.value.address;
+          state.billingDetails["country"] = val.value.country;
+          state.billingDetails["state"] = val.value.state;
+          state.billingDetails["postalCode"] = val.value.postalCode;
+        }
+      },
+      setBillingDeliveryInfos(val) {
+        state.billingDetails["deliveryAddress"] = val.value.address;
+        state.billingDetails["country"] = val.value.country;
+        state.billingDetails["state"] = val.value.state;
+        state.billingDetails["postalCode"] = val.value.postalCode;
+        loadStates(val.value.country, "billing");
       },
       setCountry(val) {
         state.shippingDetails["country"] = val;
-        loadStates(val);
+        if (state.shippingDetails.isSameAsBillingAddress) {
+          state.billingDetails["country"] = val;
+        }
+        loadStates(val, "shipping");
+      },
+      setBillingCountry(val) {
+        state.billingDetails["country"] = val;
+        loadStates(val, "billing");
       },
       setState(val) {
         state.shippingDetails["state"] = val;
+        if (state.shippingDetails.isSameAsBillingAddress) {
+          state.billingDetails["state"] = val;
+        }
+      },
+      setBillingState(val) {
+        state.billingDetails["state"] = val;
       },
       setIsSameAsBillingAddress(val) {
-        val.indexOf("Shipping address same as billing address") !== -1 
-          ? state.shippingDetails["isSameAsBillingAddress"] = true 
-          : state.shippingDetails["isSameAsBillingAddress"] = false;
+        if (val.indexOf("Shipping address same as billing address") !== -1) {
+          state.shippingDetails["isSameAsBillingAddress"] = true;
+
+          state.billingDetails["fullName"] = state.shippingDetails["fullName"];
+          state.billingDetails["deliveryAddress"] = state.shippingDetails["deliveryAddress"];
+          state.billingDetails["country"] = state.shippingDetails["country"];
+          state.billingDetails["state"] = state.shippingDetails["state"];
+          state.billingDetails["postalCode"] = state.shippingDetails["postalCode"];
+        } else {
+          state.shippingDetails["isSameAsBillingAddress"] = false;
+        }
       },
       setShippingMode(val) {
         state.shippingDetails["shippingMode"] = val;
+      },
+      validator,
+      continuePayment() {
+        state.isDirtyForm = true;
+        if (validator("", "")) {
+          console.log("shipping: ", state.shippingDetails);
+          console.log("billing: ", state.billingDetails);
+        }
       }
     };
   }

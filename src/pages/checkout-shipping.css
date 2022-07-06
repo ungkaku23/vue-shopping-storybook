@@ -27,6 +27,17 @@
   position: relative;
 }
 
+.checkout-shipping .billing-section {
+  margin-top: 12px; 
+  margin-bottom: 12px;
+}
+
+.checkout-shipping .error {
+  color: red;
+  margin-top: -10px;
+  margin-bottom: 7px;
+}
+
 .checkout-shipping .checkout-subtitle {
   font-family: 'Gilroy-SemiBold';
   font-size: 20px;
@@ -42,6 +53,16 @@
   color: #3F3F3F;
   margin: 0;
   margin-bottom: 17px;
+}
+
+.checkout-shipping .shipping-address {
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: -0.02em;
+  color: #838383;
+  margin-left: 35px;
+  margin-top: -18px;
 }
 
 .checkout-shipping .country-state {

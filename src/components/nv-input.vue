@@ -6,6 +6,7 @@
     :style="style"
     placeholder="Type your address"
     @place_changed="setPlace"
+    @input="onPlaceInput"
     :value="state.nValue"
   >
   </GMapAutocomplete>
@@ -15,6 +16,7 @@
     :class="classes" 
     :value="state.nValue"
     @change="onChange" 
+    @input="onInput" 
     :style="style" 
   />
 </template>
@@ -59,7 +61,7 @@ export default {
     },
   },
 
-  emits: ['change'],
+  emits: ['change', 'input'],
 
   setup(props, { emit }) {
     props = reactive(props);
@@ -102,6 +104,24 @@ export default {
         emit('change', {
           type: props.type,
           value: e.target.value
+        });
+      },
+      onInput(e) {
+        state.nValue = e.target.value;
+        emit('input', {
+          type: props.type,
+          value: e.target.value
+        });
+      },
+      onPlaceInput(e) {
+        emit('input', {
+          type: props.type,
+          value: {
+            address: e.target.value, 
+            country: "", 
+            postalCode: "", 
+            state: ""
+          }
         });
       },
       setPlace(place) {
