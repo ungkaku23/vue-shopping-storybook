@@ -1,0 +1,58 @@
+@font-face {
+  font-family: "Gilroy-Medium";
+  src: url(../assets/font/Gilroy-Medium.ttf)
+    format("truetype");
+  font-weight: 500;
+}
+
+.nv-checkbox {
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 137.8%;
+  color: #000000;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.nv-checkbox .tick-box {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 1px black;
+  border-radius: 38px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.nv-checkbox .tick-box.selected{
+  background-color: #000000;
+}
+
+.nv-checkbox .label {
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 137.8%;
+  color: black;
+  margin-left: 9px;
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+  cursor: pointer;
+}
+
+.nv-checkbox.checkbox-small .tick-box {
+  width: 22px;
+  height: 22px;
+}
+.nv-checkbox.checkbox-medium .tick-box {
+  width: 23px;
+  height: 23px;
+}
+.nv-checkbox.checkbox-large .tick-box {
+  width: 24px;
+  height: 24px;
+}

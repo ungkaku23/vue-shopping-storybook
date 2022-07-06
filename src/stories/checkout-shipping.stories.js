@@ -26,7 +26,7 @@ Standard.args = {
     deliveryAddress: "",
     country: "",
     state: "",
-    isSameAsBillingAddress: true,
+    isSameAsBillingAddress: false,
     shippingMode: "free" 
   }
 }

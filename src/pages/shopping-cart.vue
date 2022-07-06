@@ -2,7 +2,7 @@
   <section class="shopping-cart">
     <product-item
       v-for="(item, index) in state.products"
-      :key="`pi${index}`"
+      :key="randKey()"
       :item="item"
       @onUpdate="(obj) => onUpdate(obj, index)"
       @onRemove="onRemove"

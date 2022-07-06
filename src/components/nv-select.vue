@@ -35,7 +35,7 @@
       <div 
         v-for="(obj, index) in state.options"
         class="option"
-        :key="`opp${index}`"
+        :key="randKey()"
         @click="onOptionClicked(obj)"
       >
         {{ obj.label }}

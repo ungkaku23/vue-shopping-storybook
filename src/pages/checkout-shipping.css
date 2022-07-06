@@ -35,6 +35,15 @@
   margin-bottom: 17px;
 }
 
+.checkout-shipping .checkout-description {
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 137.8%;
+  color: #3F3F3F;
+  margin: 0;
+  margin-bottom: 17px;
+}
+
 .checkout-shipping .country-state {
   display: flex;
   justify-content: space-between;

@@ -2,7 +2,7 @@
   <div class="line-progress">
     <div 
       v-for="(point, index) in points"
-      :key="`lp${index}`"
+      :key="randKey()"
       :class="`point-line ${index < 2 ? 'group' : ''}`"
       
     >

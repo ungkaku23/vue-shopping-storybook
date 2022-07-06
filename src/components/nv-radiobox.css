@@ -1,0 +1,58 @@
+@font-face {
+  font-family: "Gilroy-Medium";
+  src: url(../assets/font/Gilroy-Medium.ttf)
+    format("truetype");
+  font-weight: 500;
+}
+
+.nv-radiobox {
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 137.8%;
+  color: #000000;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.nv-radiobox .tick-box {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 1px black;
+  border-radius: 38px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.nv-radiobox .tick-box.selected{
+  background-color: #000000;
+}
+
+.nv-radiobox .label {
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 137.8%;
+  color: black;
+  margin-left: 9px;
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+  cursor: pointer;
+}
+
+.nv-radiobox.radiobox-small .tick-box {
+  width: 22px;
+  height: 22px;
+}
+.nv-radiobox.radiobox-medium .tick-box {
+  width: 23px;
+  height: 23px;
+}
+.nv-radiobox.radiobox-large .tick-box {
+  width: 24px;
+  height: 24px;
+}
