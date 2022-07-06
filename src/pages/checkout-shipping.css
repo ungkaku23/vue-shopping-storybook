@@ -24,12 +24,27 @@
   font-size: 14px;
   line-height: 169.3%;
   color: #000000;
+  position: relative;
 }
 
-.checkout-subtitle {
+.checkout-shipping .checkout-subtitle {
   font-family: 'Gilroy-SemiBold';
   font-size: 20px;
   line-height: 23px;
   margin: 0;
   margin-bottom: 17px;
+}
+
+.checkout-shipping .country-state {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkout-shipping .country-state .cs-widget {
+  width: 48%;
+}
+
+@media only screen and (max-width: 768px) {
+
 }

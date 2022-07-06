@@ -1,5 +1,9 @@
 <template>
   <section class="checkout-shipping">
+    <loading-spinner 
+      v-if="state.isLoading" 
+      :label="state.loadingLabel" 
+    />
     <h4 class="checkout-subtitle">Shipping Details</h4>
     {{ state.shippingDetails }}
     <nv-input 
@@ -15,12 +19,26 @@
       :value="state.shippingDetails.deliveryAddress"
       @change="setDeliveryAddress"
     />
-    <nv-select 
-      fullWidth 
-      label="Country"
-      type="autocomplete"
-      @change="setCountry"
-    />
+    <div class="country-state">
+      <div class="cs-widget">
+        <nv-select 
+          fullWidth 
+          label="Country"
+          :value="state.shippingDetails.country"
+          :options="state.countries"
+          @change="setCountry"
+        />
+      </div>
+      <div class="cs-widget">
+        <nv-select 
+          fullWidth 
+          label="State"
+          :value="state.shippingDetails.state"
+          :options="state.states"
+          @change="setState"
+        />
+      </div>
+    </div>
   </section>
 </template>
 
@@ -31,6 +49,7 @@ import './checkout-shipping.css';
 import NvButton from '../components/nv-button.vue';
 import NvInput from '../components/nv-input.vue';
 import NvSelect from '../components/nv-select.vue';
+import LoadingSpinner from '../components/loading-spinner.vue';
 
 export default {
   name: 'checkout-shipping',
@@ -38,7 +57,8 @@ export default {
   components: { 
     NvButton,
     NvInput,
-    NvSelect
+    NvSelect,
+    LoadingSpinner
   },
 
   props: {
@@ -50,16 +70,60 @@ export default {
   setup(props, { emit }) {
     props = reactive(props);
     const state = reactive({ 
-      shippingDetails: props.shippingDetails
+      shippingDetails: props.shippingDetails,
+      loadingLabel: "Loading",
+      isLoading: false,
+      countries: [],
+      states: []
     });
 
+    const loadStates = (country) => {
+      state.isLoading = true;
+      state.loadingLabel = "Loading states"
+      axios.get("https://www.universal-tutorial.com/api/getaccesstoken", {
+        headers: {
+          "Accept": "application/json",
+          "api-token": "riZcZJ8djXvsvnFVSG9hyIhKIRx17xlQvt8O012rFpwdyEtzZMrosleK0FDhNWO-x88",
+          "user-email": "jhmun23216@gmail.com"
+        }
+      })
+      .then((response) => {
+        axios.get(`https://www.universal-tutorial.com/api/states/${country}`, {
+          headers: {
+            "Authorization": `Bearer ${response.data.auth_token}`,
+            "Accept": "application/json"
+          }
+        })
+        .then((response2) => {
+          state.isLoading = false;
+          state.states = response2.data.map(o => ({
+            label: o.state_name,
+            value: o.state_name
+          }));
+        })
+        .catch((err2) => {
+          state.isLoading = false;
+        });
+      })
+      .catch((err) => {
+        state.isLoading = false;
+      });
+    }
+
     const loadCountries = () => {
+      state.isLoading = true;
+      state.loadingLabel = "Loading countries"
       axios.get("https://restcountries.com/v3.1/all")
         .then((response) => {
-          console.log("response", response);
+          state.isLoading = false;
+          state.countries = response.data.map(o => ({
+            label: o.name.common,
+            value: o.name.common
+          }));
+          // state.states = response.data.
         })
         .catch((err) => {
-
+          state.isLoading = false;
         });
     }
     
@@ -80,9 +144,14 @@ export default {
         state.shippingDetails["country"] = val.value.country;
         state.shippingDetails["state"] = val.value.state;
         state.shippingDetails["postalCode"] = val.value.postalCode;
+        loadStates(val.value.country);
       },
       setCountry(val) {
-        console.log("country: ", val);
+        state.shippingDetails["country"] = val;
+        loadStates(val);
+      },
+      setState(val) {
+        state.shippingDetails["state"] = val;
       }
     };
   }

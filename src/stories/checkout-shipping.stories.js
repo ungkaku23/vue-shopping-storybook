@@ -22,10 +22,10 @@ const Template = (args) => ({
 export const Standard = Template.bind({});
 Standard.args = {
   shippingDetails: {
-    fullName: "Mr. Jhon Smith",
-    deliveryAddress: "4140 Parker Rd. Allentown, California 31134",
-    country: "United States",
-    state: "CA",
+    fullName: "",
+    deliveryAddress: "",
+    country: "",
+    state: "",
     isSameAsBillingAddress: true,
     shippingMode: "free" 
   }

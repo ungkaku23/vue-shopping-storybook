@@ -46,7 +46,7 @@
 
 <script>
 import './nv-select.css';
-import { reactive, computed, ref, onMounted } from 'vue';
+import { reactive, computed, ref, onMounted, watch } from 'vue';
 
 export default {
   name: 'nv-select',
@@ -98,6 +98,18 @@ export default {
     onMounted(() => {
     })
 
+    watch(() => props.options, (current, prev) => {
+      if (JSON.stringify(current) !== JSON.stringify(prev)) {
+        state.options = current;
+      }
+    });
+
+    watch(() => props.value, (current, prev) => {
+      if (JSON.stringify(current) !== JSON.stringify(prev)) {
+        state.nValue = current;
+      }
+    });
+
     const selectLabel = computed(() => {
       if (state.nValue !== "" ) {
         let found = props.options.find(o => o.value === state.nValue);
@@ -137,7 +149,7 @@ export default {
       inputChange(e) {
         toggle.value = true;
         state.nValue = e.target.value;
-        state.options = props.options.filter(o => o.label.includes(e.target.value) || o.value.includes(e.target.value));
+        state.options = props.options.filter(o => o.label.toUpperCase().includes(e.target.value.toUpperCase()) || o.value.toUpperCase().includes(e.target.value.toUpperCase()));
       },
       toggleDropdown() {
         toggle.value = !toggle.value;
@@ -151,8 +163,8 @@ export default {
         setTimeout(() => {
           toggle.value = false;
           let found = props.options.find(o => o.value === state.nValue);
-          found !== undefined ? null : state.nValue = "";
-          emit('change', state.nValue);
+          found !== undefined ? null : state.nValue = props.value;
+          // emit('change', state.nValue);
         }, 100)
       }
     }
