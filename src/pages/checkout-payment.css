@@ -1,0 +1,66 @@
+@font-face {
+  font-family: "Gilroy-Regular";
+  src: url(../assets/font/Gilroy-Regular.ttf)
+    format("truetype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Gilroy-SemiBold";
+  src: url(../assets/font/Gilory-Semi-Bold.ttf)
+    format("truetype");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Gilroy-Medium";
+  src: url(../assets/font/Gilroy-Medium.ttf)
+    format("truetype");
+  font-weight: 500;
+}
+
+.checkout-payment {
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 169.3%;
+  color: #000000;
+  position: relative;
+}
+
+.checkout-payment .error {
+  color: red;
+  margin-top: -10px;
+  margin-bottom: 7px;
+}
+
+.checkout-payment .checkout-subtitle {
+  font-family: 'Gilroy-SemiBold';
+  font-size: 20px;
+  line-height: 23px;
+  margin: 0;
+  margin-bottom: 17px;
+}
+
+.checkout-payment .checkout-description {
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 137.8%;
+  color: #3F3F3F;
+  margin: 0;
+  margin-bottom: 22px;
+}
+
+.checkout-payment .expiration-security {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.checkout-payment .expiration-security .es-widget {
+  width: 48%;
+}
+
+@media only screen and (max-width: 768px) {
+
+}

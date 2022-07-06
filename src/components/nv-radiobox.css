@@ -38,6 +38,12 @@
   margin-right: 12px;
 }
 
+.nv-radiobox .right-side-img img {
+  height: 24px;
+  width: auto;
+  filter: grayscale(1);
+}
+
 .nv-radiobox .tick-box-label {
   display: flex;
   align-items: center;
@@ -65,6 +71,10 @@
 
 .nv-radiobox .right-side-info.selected {
   color: #000000;
+}
+
+.nv-radiobox .right-side-img.selected img {
+  filter: grayscale(0);
 }
 
 .nv-radiobox .tick-box-label .label {

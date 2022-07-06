@@ -1,38 +1,28 @@
-import CheckoutShipping from '../pages/checkout-shipping.vue';
+import CheckoutPayment from '../pages/checkout-payment.vue';
 
 export default {
-  title: 'Pages/CheckoutShipping',
-  component: CheckoutShipping,
+  title: 'Pages/CheckoutPayment',
+  component: CheckoutPayment,
   argTypes: {
   }
 };
 
 const Template = (args) => ({
   // Components used in your story `template` are defined in the `components` object
-  components: { CheckoutShipping },
+  components: { CheckoutPayment },
   // The story's `args` need to be mapped into the template through the `setup()` method
   setup() {
     // Story args can be mapped to keys in the returned object
     return { args };
   },
   // Then, those values can be accessed directly in the template
-  template: '<checkout-shipping v-bind="args" />',
+  template: '<checkout-payment v-bind="args" />',
 });
 
 export const Standard = Template.bind({});
 Standard.args = {
-  shippingDetails: {
-    fullName: "",
-    deliveryAddress: "",
-    country: "",
-    state: "",
-    isSameAsBillingAddress: true,
-    shippingMode: "free" 
-  }, 
-  billingDetails: {
-    fullName: "",
-    deliveryAddress: "",
-    country: "",
-    state: ""
+  paymentDetails: {
+    method: "paypal",
+    cardHolderName: ""
   }
 }

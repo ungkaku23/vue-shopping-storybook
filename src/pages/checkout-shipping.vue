@@ -5,6 +5,7 @@
       :label="state.loadingLabel" 
     />
     <h4 class="checkout-subtitle">Shipping Details</h4>
+
     <nv-input 
       fullWidth 
       label="Full Name"
@@ -12,6 +13,7 @@
       @input="setFullName"
     />
     <div v-if="state.isDirtyForm" class="error">{{validator("fullName", "shipping")}}</div>
+
     <nv-input 
       fullWidth 
       label="Delivery Address"
@@ -21,6 +23,7 @@
       @input="setDeliveryAddress"
     />
     <div v-if="state.isDirtyForm" class="error">{{validator("deliveryAddress", "shipping")}}</div>
+    
     <div class="country-state">
       <div class="cs-widget">
         <nv-select 
@@ -49,6 +52,7 @@
       class="billing-section"
     >
       <h4 class="checkout-subtitle">Billing Details</h4>
+
       <nv-input 
         fullWidth 
         label="Full Name"
@@ -56,6 +60,7 @@
         @input="setBillingFullName"
       />
       <div v-if="state.isDirtyForm" class="error">{{validator("fullName", "billing")}}</div>
+
       <nv-input 
         fullWidth 
         label="Delivery Address"
@@ -65,6 +70,7 @@
         @input="setBillingDeliveryAddress"
       />
       <div v-if="state.isDirtyForm" class="error">{{validator("deliveryAddress", "billing")}}</div>
+
       <div class="country-state">
         <div class="cs-widget">
           <nv-select 

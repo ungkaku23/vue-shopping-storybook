@@ -3,7 +3,7 @@
     v-for="(option, index) in options"
     :key="randKey()"
     :class="classes" 
-    :style="style"
+    :style="`${style} ${state.nValue === option.value ? 'border-color: black;' : 'border-color: #838383;'}`"
     @click="onChange(option)"
   >
     <div class="tick-box-label">
@@ -29,6 +29,12 @@
       :class="`right-side-info ${state.nValue === option.value ? 'selected' : ''}`"
     >
       <div></div>{{option.rightSideInfo}}
+    </div>
+    <div 
+      v-if="option.hasOwnProperty('rightSideImg')"
+      :class="`right-side-img ${state.nValue === option.value ? 'selected' : ''}`"
+    >
+      <img :src="getImgUrl(option.rightSideImg)" />
     </div>
   </div>
 </template>
@@ -85,8 +91,14 @@ export default {
     onMounted(() => {
     });
 
+    const getImgUrl = (imgFile) => {
+      var images = require.context('../assets/img/', false, /\.(png|jpg|jpeg)$/)
+      return images('./' + imgFile)
+    }
+
     return {
       state,
+      getImgUrl,
       options: computed(() => props.options),
       classes: computed(() => ({
         "nv-radiobox": true,
