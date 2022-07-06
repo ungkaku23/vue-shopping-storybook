@@ -230,8 +230,8 @@ export default {
       let shippingErrText = '';
       let billingErrText = '';
 
-      if (field !== "shippingMode" && field !== "isSameAsBillingAddress") {
-        if (field !== "") {
+      if (field !== "") {
+        if (field !== "shippingMode" && field !== "isSameAsBillingAddress" && field !== "postalCode") {
           if (state.shippingDetails[field] === "") {
             shippingErrText = "This is required";
           }
@@ -240,16 +240,20 @@ export default {
             billingErrText = "This is required";
           }
           return type === "shipping" ? shippingErrText : billingErrText;
-        } else {
-          for (const key in state.shippingDetails) {
+        }
+      } else {
+        for (const key in state.shippingDetails) {
+          if (key !== "shippingMode" && key !== "isSameAsBillingAddress" && key !== "postalCode") {
             state.shippingDetails[key] === "" ? isValid = false : null;
           }
+        }
 
-          for (const key in state.billingDetails) {
+        for (const key in state.billingDetails) {
+          if (key !== "shippingMode" && key !== "isSameAsBillingAddress" && key !== "postalCode") {
             state.billingDetails[key] === "" ? isValid = false : null;
           }
-          return isValid;
         }
+        return isValid;
       }
 
       return null;
@@ -345,6 +349,12 @@ export default {
           state.billingDetails["postalCode"] = state.shippingDetails["postalCode"];
         } else {
           state.shippingDetails["isSameAsBillingAddress"] = false;
+
+          state.billingDetails["fullName"] = "";
+          state.billingDetails["deliveryAddress"] = "";
+          state.billingDetails["country"] = "";
+          state.billingDetails["state"] = "";
+          state.billingDetails["postalCode"] = "";
         }
       },
       setShippingMode(val) {
@@ -354,8 +364,8 @@ export default {
       continuePayment() {
         state.isDirtyForm = true;
         if (validator("", "")) {
-          console.log("shipping: ", state.shippingDetails);
-          console.log("billing: ", state.billingDetails);
+          console.log("shipping--: ", state.shippingDetails);
+          console.log("billing--: ", state.billingDetails);
         }
       }
     };

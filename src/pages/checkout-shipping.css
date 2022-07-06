@@ -29,7 +29,6 @@
 
 .checkout-shipping .billing-section {
   margin-top: 12px; 
-  margin-bottom: 12px;
 }
 
 .checkout-shipping .error {
@@ -69,6 +68,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .checkout-shipping .country-state .cs-widget {
