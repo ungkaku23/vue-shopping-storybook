@@ -3,8 +3,11 @@ import App from './App.vue'
 import store from './store'
 import VueGoogleMaps from '@fawmi/vue-google-maps'
 import { v4 as uuidv4 } from 'uuid';
+import Maska from 'maska';
 
 const app = createApp(App)
+
+app.use(Maska)
 
 app.use(store)
 

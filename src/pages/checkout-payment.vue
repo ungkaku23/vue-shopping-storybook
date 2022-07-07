@@ -4,7 +4,6 @@
       v-if="state.isLoading" 
       :label="state.loadingLabel" 
     />
-    {{state.paymentDetails}}
     <h4 
       class="checkout-subtitle" 
       style="margin-top: 20px; margin-bottom: 6px"
@@ -132,6 +131,37 @@ export default {
       isDirtyForm: false
     });
 
+    const cardExpirationValidator = () => {
+      let today = new Date();
+      let thisYrStr = today.getFullYear().toString();
+      let dataStr = JSON.parse(JSON.stringify(state.paymentDetails.expirationDate));
+      let month = parseInt(dataStr.split("/")[0]); // 1 - 12
+      let year = parseInt(dataStr.split("/")[1]); // 23
+      let yrUnit = thisYrStr.substring(0, thisYrStr.length - 2);
+
+      if (month > 0 && month < 13) {
+        
+        let expDate = new Date(parseInt(yrUnit + year), month - 1);
+        if (today.getTime() > expDate.getTime()) {
+            return "Your Card is expired. Please check expiry date.";
+        } else {
+          return "";
+        }
+      } else {
+        return "Expiration date is invalid";
+      }
+    }
+
+    const cardNumberValidator = () => {
+      let dataStr = JSON.parse(JSON.stringify(state.paymentDetails.cardNumber));
+      return dataStr.replace(/[" "]/g, "").length !== 16 ? "Card number is invalid" : "";
+    }
+
+    const cvcValidator = () => {
+      let dataStr = JSON.parse(JSON.stringify(state.paymentDetails.securityCode));
+      return dataStr.length !== 3 ? "Security code is invalid" : "";
+    }
+
     const validator = (field = "") => {
       let isValid = true;
       let paymentErrText = '';
@@ -140,6 +170,18 @@ export default {
         if (field !== "isSavePaymentInfo") {
           if (state.paymentDetails[field] === "") {
             paymentErrText = "This is required";
+          } else {
+            if (field === "expirationDate" && cardExpirationValidator() !== "") {
+              paymentErrText = cardExpirationValidator();
+            }
+
+            if (field === "cardNumber" && cardNumberValidator() !== "") {
+              paymentErrText = cardNumberValidator();
+            }
+
+            if (field === "securityCode" && cvcValidator() !== "") {
+              paymentErrText = cvcValidator();
+            }
           }
 
           return paymentErrText;
@@ -147,7 +189,13 @@ export default {
       } else {
         for (const key in state.paymentDetails) {
           if (key !== "isSavePaymentInfo") {
-            state.paymentDetails[key] === "" ? isValid = false : null;
+            state.paymentDetails[key] === "" 
+              ? isValid = false 
+              : (key === "expirationDate" && cardExpirationValidator() !== "") || 
+                (key === "cardNumber" && cardNumberValidator() !== "") || 
+                (key === "securityCode" && cvcValidator() !== "")
+                ? isValid = false
+                : null;
           }
         }
 
@@ -176,6 +224,9 @@ export default {
         label: "Credit Card",
         rightSideImg: "card.png"
       }],
+      cardExpirationValidator,
+      cardNumberValidator,
+      cvcValidator,
       validator,
       setIsSavePaymentInfo(val) {
         if (val.indexOf("Save this card for future faster checkout") !== -1) {

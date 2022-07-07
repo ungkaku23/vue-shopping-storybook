@@ -69,7 +69,8 @@ export default {
 
   props: {
     products: {
-      type: Object
+      type: Object,
+      default: []
     },
     shippingMode: {
       type: String
