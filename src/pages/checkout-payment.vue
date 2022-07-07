@@ -23,6 +23,7 @@
         border-radius: 8px;
       `"
     />
+    <div v-if="state.isDirtyForm" class="error">{{validator("method")}}</div>
     <div style="height: 6px;">
     </div>
 
@@ -32,6 +33,7 @@
       :value="state.paymentDetails.cardHolderName"
       @input="setCardHolderName"
     />
+    <div v-if="state.isDirtyForm" class="error">{{validator("cardHolderName")}}</div>
 
     <nv-input 
       fullWidth 
@@ -42,6 +44,7 @@
       tokens="#### #### #### ####"
       placeholder="4242 4242 4242 4242"
     />
+    <div v-if="state.isDirtyForm" class="error">{{validator("cardNumber")}}</div>
 
     <div class="expiration-security">
       <div class="es-widget">
@@ -54,6 +57,7 @@
           tokens="##/##"
           placeholder="MM/YY"
         />
+        <div v-if="state.isDirtyForm" class="error">{{validator("expirationDate")}}</div>
       </div>
       <div class="es-widget">
         <nv-input 
@@ -65,6 +69,7 @@
           tokens="###"
           placeholder="CVC"
         />
+        <div v-if="state.isDirtyForm" class="error">{{validator("securityCode")}}</div>
       </div>
     </div>
 
@@ -127,12 +132,12 @@ export default {
       isDirtyForm: false
     });
 
-    const validator = (field = "", type = "") => {
+    const validator = (field = "") => {
       let isValid = true;
       let paymentErrText = '';
 
       if (field !== "") {
-        if (field !== "shippingMode" && field !== "isSameAsBillingAddress" && field !== "postalCode") {
+        if (field !== "isSavePaymentInfo") {
           if (state.paymentDetails[field] === "") {
             paymentErrText = "This is required";
           }
@@ -141,7 +146,7 @@ export default {
         }
       } else {
         for (const key in state.paymentDetails) {
-          if (key !== "shippingMode" && key !== "isSameAsBillingAddress" && key !== "postalCode") {
+          if (key !== "isSavePaymentInfo") {
             state.paymentDetails[key] === "" ? isValid = false : null;
           }
         }
@@ -196,10 +201,9 @@ export default {
       },
       continuePayment() {
         state.isDirtyForm = true;
-        // if (validator("", "")) {
-        //   console.log("shipping--: ", state.paymentDetails);
-        //   console.log("billing--: ", state.billingDetails);
-        // }
+        if (validator("")) {
+          console.log("paymentDetails--: ", state.paymentDetails);
+        }
       }
     };
   }
