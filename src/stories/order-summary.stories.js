@@ -1,4 +1,4 @@
-import ShoppingCart from '../pages/shopping-cart.vue';
+import OrderSummary from '../components/order-summary.vue';
 
 const products = [{
   id: 1,
@@ -30,31 +30,29 @@ const products = [{
 }];
 
 export default {
-  title: 'Pages/ShoppingCart',
-  component: ShoppingCart,
+  title: 'Components/OrderSummary',
+  component: OrderSummary
 };
 
 const Template = (args) => ({
   // Components used in your story `template` are defined in the `components` object
-  components: { ShoppingCart },
+  components: { OrderSummary },
   // The story's `args` need to be mapped into the template through the `setup()` method
   setup() {
-    // Story args can be mapped to keys in the returned object
     return { args };
   },
-  // Then, those values can be accessed directly in the template
-  template: '<shopping-cart v-bind="args"/>',
+  // And then the `args` are bound to your component with `v-bind="args"`
+  template: '<order-summary v-bind="args" />',
 });
 
-export const Standard = Template.bind({});
-Standard.args = {
-  shippingDetails: {
-    fullName: "",
-    deliveryAddress: "",
-    country: "",
-    state: "",
-    isSameAsBillingAddress: true,
-    shippingMode: "free" 
-  },
-  products
-}
+export const Free = Template.bind({});
+Free.args = {
+  products,
+  shippingMode: "free"
+};
+
+export const Quick = Template.bind({});
+Quick.args = {
+  products,
+  shippingMode: "quick"
+};
