@@ -1,0 +1,73 @@
+@font-face {
+  font-family: "Gilroy-Regular";
+  src: url(../assets/font/Gilroy-Regular.ttf)
+    format("truetype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Gilroy-SemiBold";
+  src: url(../assets/font/Gilory-Semi-Bold.ttf)
+    format("truetype");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Gilroy-Medium";
+  src: url(../assets/font/Gilroy-Medium.ttf)
+    format("truetype");
+  font-weight: 500;
+}
+
+.transaction-success {
+  font-family: 'Gilroy-Medium';
+  font-size: 14px;
+  line-height: 169.3%;
+  font-weight: 500;
+  color: #000000;
+  position: relative;
+}
+
+.transaction-success .ts-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.transaction-success .ts-body .prod-banner {
+  margin-bottom: 48px;
+  margin-top: 48px;
+}
+
+.transaction-success .ts-body .prod-banner img {
+  width: 160px;
+  height: 178px;
+}
+
+.transaction-success .ts-body .prod-description {
+  text-align: center;
+}
+
+.transaction-success .ts-body .prod-description div:nth-child(1) {
+  font-family: 'Gilroy-SemiBold';
+  font-size: 25px;
+  line-height: 29px;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+.transaction-success .ts-body .prod-description div:nth-child(2) {
+  font-family: 'Gilroy-Medium';
+  font-size: 16px;
+  line-height: 137.8%;
+  text-align: center;
+  color: #3F3F3F;
+  font-weight: 500;
+  margin-bottom: 160px;
+}
+
+@media only screen and (max-width: 768px) {
+
+}

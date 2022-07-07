@@ -24,7 +24,7 @@
           Name:
         </div>
         <div>
-          Mr John Smith
+          Mr. {{state.shippingDetails.fullName}}
         </div>
       </div>
       <div class="brief-info">
@@ -32,7 +32,7 @@
           Address:
         </div>
         <div>
-          4140 Parker Rd. Allentown, California 31134, United State
+          {{state.shippingDetails.deliveryAddress}}
         </div>
       </div>
       <div class="brief-bottom">
@@ -51,17 +51,24 @@
       </div>
       <div class="brief-info" style="justify-content: space-between;">
         <div class="brief-card-label">
-          
+          <img :src="getImgUrl(state.paymentDetails.method === 'card' ? 'card.png' : 'paypal.png')" /> 
+          <div>****</div>
+          <div>{{state.paymentDetails.cardNumber.split(" ")[3]}}</div>
         </div>
-        <div>
-          Mr John Smith
+        <div class="brief-card-exp">
+          {{state.paymentDetails.expirationDate}}
         </div>
       </div>
     </div>
 
+    <order-summary 
+      :products="state.products"
+      :shippingMode="state.shippingDetails.shippingMode"
+    />
+
     <nv-button 
       primary
-      label="Continue"
+      label="Submit Order"
       size="large" 
       style="width: 100%; margin: 20px 0px;"
       @click="continuePayment"
@@ -75,13 +82,15 @@ import axios from 'axios';
 import './checkout-review.css';
 import NvButton from '../components/nv-button.vue';
 import LoadingSpinner from '../components/loading-spinner.vue';
+import OrderSummary from '../components/order-summary.vue';
 
 export default {
   name: 'checkout-review',
 
   components: { 
     NvButton,
-    LoadingSpinner
+    LoadingSpinner,
+    OrderSummary
   },
 
   props: {
@@ -105,7 +114,11 @@ export default {
 
   setup(props, { emit }) {
     props = reactive(props);
+
     const state = reactive({ 
+      products: props.products,
+      shippingDetails: props.shippingDetails,
+      billingDetails: props.billingDetails,
       paymentDetails: props.paymentDetails,
       loadingLabel: "Loading",
       isLoading: false
@@ -114,8 +127,14 @@ export default {
     onMounted(() => {
     });
 
+    const getImgUrl = (imgFile) => {
+      var images = require.context('../assets/img/', false, /\.(png|jpg|jpeg)$/)
+      return images('./' + imgFile)
+    }
+
     return {
       state,
+      getImgUrl,
       continuePayment() {
         
       }

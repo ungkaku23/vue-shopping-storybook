@@ -53,6 +53,7 @@
   border: 1px solid #000000;
   border-radius: 8px;
   padding: 13px 15px;
+  margin-bottom: 16px;
 }
 
 .checkout-review .brief-box .brief-header {
@@ -87,6 +88,32 @@
 .checkout-review .brief-box .brief-info .brief-label {
   color: #3F3F3F;
   margin-right: 10px;
+}
+
+.checkout-review .brief-box .brief-info .brief-card-label {
+  display: flex;
+  align-items: center;
+}
+
+.checkout-review .brief-box .brief-info .brief-card-label img {
+  height: 20px;
+}
+
+.checkout-review .brief-box .brief-info .brief-card-label div:nth-child(2) {
+  line-height: 28px;
+  height: 20px;
+  margin-right: 5px;
+  margin-left: 5px;
+  color: #3F3F3F;
+}
+
+.checkout-review .brief-box .brief-info .brief-card-label div:nth-child(3) {
+  height: 20px;
+  color: #3F3F3F;
+}
+
+.checkout-review .brief-box .brief-info .brief-card-exp {
+  color: #3F3F3F;
 }
 
 .checkout-review .brief-box .brief-bottom {
