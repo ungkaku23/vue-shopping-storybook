@@ -23,8 +23,13 @@
   font-family: 'Gilroy-Medium';
   font-size: 14px;
   line-height: 169.3%;
+  font-weight: 500;
   color: #000000;
   position: relative;
+}
+
+.checkout-review .ex-link {
+  text-decoration-line: underline;
 }
 
 .checkout-review .checkout-subtitle {
@@ -42,6 +47,55 @@
   color: #3F3F3F;
   margin: 0;
   margin-bottom: 22px;
+}
+
+.checkout-review .brief-box {
+  border: 1px solid #000000;
+  border-radius: 8px;
+  padding: 13px 15px;
+}
+
+.checkout-review .brief-box .brief-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.checkout-review .brief-box .brief-header .brief-title {
+  font-family: 'Gilroy-SemiBold';
+  font-size: 16px;
+  line-height: 137.8%;
+  color: #000000;
+  font-weight: 600;
+}
+
+.checkout-review .brief-box .brief-header .brief-edit {
+  font-family: 'Gilroy-SemiBold';
+  font-size: 14px;
+  line-height: 137.8%;
+  text-decoration-line: underline;
+  color: #000000;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.checkout-review .brief-box .brief-info {
+  display: flex;
+  margin-bottom: 2px;
+}
+
+.checkout-review .brief-box .brief-info .brief-label {
+  color: #3F3F3F;
+  margin-right: 10px;
+}
+
+.checkout-review .brief-box .brief-bottom {
+  text-align: center;
+  margin-top: 4px;
+}
+
+.checkout-review .brief-box .brief-bottom .ex-link {
+  color: #3F3F3F;
 }
 
 @media only screen and (max-width: 768px) {

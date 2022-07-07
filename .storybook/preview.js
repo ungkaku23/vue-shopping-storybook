@@ -4,7 +4,7 @@ import VueGoogleMaps from '@fawmi/vue-google-maps'
 import { v4 as uuidv4 } from 'uuid';
 import Maska from 'maska';
 
-app.use(Maska)
+app.use(Maska);
 
 app.use(store);
 
@@ -20,7 +20,7 @@ app.mixin({
   methods: {
     randKey: () => uuidv4(),
   }
-})
+});
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },

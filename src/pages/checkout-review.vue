@@ -10,9 +10,54 @@
     >
       Please confirm and submit your order
     </h4>
-    <p class="checkout-description">By clicking submit order, you agree to XXX Term of use and Privacy Policy</p>
+    <p class="checkout-description">By clicking submit order, you agree to XXX <span class="ex-link">Term of use</span> and <span class="ex-link">Privacy Policy</span></p>
 
-    
+    <div class="brief-box">
+      <div class="brief-header">
+        <div class="brief-title">
+          Shipping Address
+        </div>
+        <span class="brief-edit">Edit</span>
+      </div>
+      <div class="brief-info">
+        <div class="brief-label">
+          Name:
+        </div>
+        <div>
+          Mr John Smith
+        </div>
+      </div>
+      <div class="brief-info">
+        <div class="brief-label">
+          Address:
+        </div>
+        <div>
+          4140 Parker Rd. Allentown, California 31134, United State
+        </div>
+      </div>
+      <div class="brief-bottom">
+        <span class="ex-link">
+          Add New Address
+        </span>
+      </div>
+    </div>
+
+    <div class="brief-box">
+      <div class="brief-header">
+        <div class="brief-title">
+          Payment
+        </div>
+        <span class="brief-edit">Edit</span>
+      </div>
+      <div class="brief-info" style="justify-content: space-between;">
+        <div class="brief-card-label">
+          
+        </div>
+        <div>
+          Mr John Smith
+        </div>
+      </div>
+    </div>
 
     <nv-button 
       primary
