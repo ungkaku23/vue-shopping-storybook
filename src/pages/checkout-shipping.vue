@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted, watch } from 'vue';
 import axios from 'axios';
 import './checkout-shipping.css';
 import NvButton from '../components/nv-button.vue';
@@ -174,6 +174,18 @@ export default {
       states: [],
       billingStates: [],
       isDirtyForm: false
+    });
+
+    watch(() => props.shippingDetails, (current, prev) => {
+      if (JSON.stringify(current) !== JSON.stringify(prev)) {
+        state.shippingDetails = current;
+      }
+    });
+
+    watch(() => props.billingDetails, (current, prev) => {
+      if (JSON.stringify(current) !== JSON.stringify(prev)) {
+        state.billingDetails = current;
+      }
     });
 
     const loadStates = (country, type) => {

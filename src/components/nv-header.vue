@@ -11,6 +11,7 @@
           stroke-linecap="round"
           stroke-linejoin="round"
           v-if="isCheckout"
+          @click="$emit('back')"
         >
           <use href="../assets/icon/feather-sprite.svg#chevron-left"/>
         </svg>

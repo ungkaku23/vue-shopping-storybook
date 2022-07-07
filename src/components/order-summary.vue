@@ -52,6 +52,8 @@ export default {
     }
   },
 
+  emits: ['updateShippingMode'],
+
   setup(props, { emit }) {
     props = reactive(props);
 
@@ -85,6 +87,7 @@ export default {
       total,
       updateShippingMode(mode) {
         state.shippingMode = mode;
+        emit("updateShippingMode", state.shippingMode);
       }
     };
   }

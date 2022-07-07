@@ -31,24 +31,46 @@ const products = [{
 
 export default createStore({
   state: {
-    products: products,
-    shippingMode: "free",
-    status: 'idle',
-    error: null,
-  },
-  getters: {
-    getTest(state) {
-      return state.shippingMode;
-    }
+    step: 0, // start , shopping cart
+    paymentDetails: {
+      method: "paypal",
+      cardHolderName: "",
+      cardNumber: "",
+      expirationDate: "",
+      securityCode: "",
+      isSavePaymentInfo: true
+    },
+    shippingDetails: {
+      fullName: "",
+      deliveryAddress: "",
+      country: "",
+      state: "",
+      isSameAsBillingAddress: true,
+      shippingMode: "free" 
+    }, 
+    billingDetails: {
+      fullName: "",
+      deliveryAddress: "",
+      country: "",
+      state: ""
+    },
+    products
   },
   mutations: {
-    UPDATE_PRODUCTS(state, shippingMode) {
-      state.shippingMode = shippingMode;
+    UPDATE_STEP(state, step) {
+      state.step = step;
+    },
+    UPDATE_PRODUCTS(state, products) {
+      state.products = products;
+    },
+    UPDATE_SHIPPING_DETAILS(state, shippingDetails) {
+      console.log("UPDATE_SHIPPING_DETAILS: ", shippingDetails);
+      state.shippingDetails = shippingDetails;
     }
   },
   actions: {
-    updateProducts({ commit }, shippingMode) {
-      commit('UPDATE_PRODUCTS', shippingMode);
-    }
+    // updateProducts({ commit }, shippingMode) {
+    //   commit('UPDATE_PRODUCTS', shippingMode);
+    // }
   },
 });

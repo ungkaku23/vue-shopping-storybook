@@ -11,6 +11,7 @@
     <order-summary 
       :products="state.products"
       :shippingMode="state.shippingMode"
+      @updateShippingMode="onUpdateShippingMode"
     />
 
     <nv-button 
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted, watch } from 'vue';
 import './shopping-cart.css';
 import ProductItem from '../components/product-item.vue';
 import NvButton from '../components/nv-button.vue';
@@ -50,11 +51,25 @@ export default {
     }
   },
 
+  emits: ['saveAndCheckout'],
+
   setup(props, { emit }) {
     props = reactive(props);
     const state = reactive({ 
       products: props.products,
       shippingMode: props.shippingDetails.shippingMode 
+    });
+
+    watch(() => props.products, (current, prev) => {
+      if (JSON.stringify(current) !== JSON.stringify(prev)) {
+        state.products = current;
+      }
+    });
+
+    watch(() => props.shippingDetails, (current, prev) => {
+      if (JSON.stringify(current) !== JSON.stringify(prev)) {
+        state.shippingMode = current.shippingMode;
+      }
     });
     
     onMounted(() => {
@@ -68,8 +83,11 @@ export default {
       onRemove(item) {
         state.products = state.products.filter(o => o.id !== item.id);
       },
+      onUpdateShippingMode(val) {
+        state.shippingMode = val;
+      },
       doCheckout() {
-        console.log("hey")
+        emit("saveAndCheckout", state);
       }
     };
   }
