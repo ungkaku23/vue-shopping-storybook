@@ -31,7 +31,7 @@ Standard.args = {
   }, 
   billingDetails: {
     fullName: "",
-    deliveryAddress: "",
+    billingAddress: "",
     country: "",
     state: ""
   }

@@ -64,13 +64,13 @@
 
       <nv-input 
         fullWidth 
-        label="Delivery Address"
+        label="Billing Address"
         type="autocomplete"
-        :value="state.billingDetails.deliveryAddress"
-        @change="setBillingDeliveryInfos"
-        @input="setBillingDeliveryAddress"
+        :value="state.billingDetails.billingAddress"
+        @change="setBillingInfos"
+        @input="setBillingAddress"
       />
-      <div v-if="state.isDirtyForm" class="error">{{validator("deliveryAddress", "billing")}}</div>
+      <div v-if="state.isDirtyForm" class="error">{{validator("billingAddress", "billing")}}</div>
 
       <div class="country-state">
         <div class="cs-widget">
@@ -298,11 +298,11 @@ export default {
       setDeliveryAddress(val) {
         state.shippingDetails["deliveryAddress"] = val.value.address;
         if (state.shippingDetails.isSameAsBillingAddress) {
-          state.billingDetails["deliveryAddress"] = val.value.address;
+          state.billingDetails["billingAddress"] = val.value.address;
         }
       },
-      setBillingDeliveryAddress(val) {
-        state.billingDetails["deliveryAddress"] = val.value.address;
+      setBillingAddress(val) {
+        state.billingDetails["billingAddress"] = val.value.address;
       },
       setDeliveryInfos(val) {
         state.shippingDetails["deliveryAddress"] = val.value.address;
@@ -312,14 +312,14 @@ export default {
         loadStates(val.value.country, "shipping");
 
         if (state.shippingDetails.isSameAsBillingAddress) {
-          state.billingDetails["deliveryAddress"] = val.value.address;
+          state.billingDetails["billingAddress"] = val.value.address;
           state.billingDetails["country"] = val.value.country;
           state.billingDetails["state"] = val.value.state;
           state.billingDetails["postalCode"] = val.value.postalCode;
         }
       },
-      setBillingDeliveryInfos(val) {
-        state.billingDetails["deliveryAddress"] = val.value.address;
+      setBillingInfos(val) {
+        state.billingDetails["billingAddress"] = val.value.address;
         state.billingDetails["country"] = val.value.country;
         state.billingDetails["state"] = val.value.state;
         state.billingDetails["postalCode"] = val.value.postalCode;
@@ -350,7 +350,7 @@ export default {
           state.shippingDetails["isSameAsBillingAddress"] = true;
 
           state.billingDetails["fullName"] = state.shippingDetails["fullName"];
-          state.billingDetails["deliveryAddress"] = state.shippingDetails["deliveryAddress"];
+          state.billingDetails["billingAddress"] = state.shippingDetails["deliveryAddress"];
           state.billingDetails["country"] = state.shippingDetails["country"];
           state.billingDetails["state"] = state.shippingDetails["state"];
           state.billingDetails["postalCode"] = state.shippingDetails["postalCode"];
@@ -358,7 +358,7 @@ export default {
           state.shippingDetails["isSameAsBillingAddress"] = false;
 
           state.billingDetails["fullName"] = "";
-          state.billingDetails["deliveryAddress"] = "";
+          state.billingDetails["billingAddress"] = "";
           state.billingDetails["country"] = "";
           state.billingDetails["state"] = "";
           state.billingDetails["postalCode"] = "";
