@@ -36,14 +36,19 @@ export default createStore({
     status: 'idle',
     error: null,
   },
+  getters: {
+    getTest(state) {
+      return state.shippingMode;
+    }
+  },
   mutations: {
-    UPDATE_PRODUCTS(state, products) {
-      state.products = products;
+    UPDATE_PRODUCTS(state, shippingMode) {
+      state.shippingMode = shippingMode;
     }
   },
   actions: {
-    updateProducts({ commit }, products) {
-      commit('UPDATE_PRODUCTS', products);
+    updateProducts({ commit }, shippingMode) {
+      commit('UPDATE_PRODUCTS', shippingMode);
     }
   },
 });

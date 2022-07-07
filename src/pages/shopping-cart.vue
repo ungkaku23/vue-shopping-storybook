@@ -29,7 +29,6 @@ import './shopping-cart.css';
 import ProductItem from '../components/product-item.vue';
 import NvButton from '../components/nv-button.vue';
 import OrderSummary from '../components/order-summary.vue';
-// import { useStore } from 'vuex';
 
 export default {
   name: 'shopping-cart',
@@ -52,9 +51,6 @@ export default {
   },
 
   setup(props, { emit }) {
-    // const store = useStore();
-    // console.log("store: ", store);
-
     props = reactive(props);
     const state = reactive({ 
       products: props.products,
