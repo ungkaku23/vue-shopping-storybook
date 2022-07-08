@@ -64,6 +64,7 @@
     <order-summary 
       :products="state.products"
       :shippingMode="state.shippingDetails.shippingMode"
+      @updateShippingMode="onUpdateShippingMode"
     />
 
     <nv-button 
@@ -77,7 +78,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted, watch } from 'vue';
 import axios from 'axios';
 import './checkout-review.css';
 import NvButton from '../components/nv-button.vue';
@@ -112,6 +113,8 @@ export default {
     }
   },
 
+  emits: ['continuePayment'],
+
   setup(props, { emit }) {
     props = reactive(props);
 
@@ -122,6 +125,30 @@ export default {
       paymentDetails: props.paymentDetails,
       loadingLabel: "Loading",
       isLoading: false
+    });
+
+    watch(() => props.products, (current, prev) => {
+      if (JSON.stringify(current) !== JSON.stringify(prev)) {
+        state.products = current;
+      }
+    });
+
+    watch(() => props.shippingDetails, (current, prev) => {
+      if (JSON.stringify(current) !== JSON.stringify(prev)) {
+        state.shippingDetails = current;
+      }
+    });
+
+    watch(() => props.billingDetails, (current, prev) => {
+      if (JSON.stringify(current) !== JSON.stringify(prev)) {
+        state.billingDetails = current;
+      }
+    });
+
+    watch(() => props.paymentDetails, (current, prev) => {
+      if (JSON.stringify(current) !== JSON.stringify(prev)) {
+        state.paymentDetails = current;
+      }
     });
     
     onMounted(() => {
@@ -135,8 +162,11 @@ export default {
     return {
       state,
       getImgUrl,
+      onUpdateShippingMode(val) {
+        state.shippingDetails["shippingMode"] = val;
+      },
       continuePayment() {
-        
+        emit("continuePayment", state);
       }
     };
   }

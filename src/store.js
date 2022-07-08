@@ -64,8 +64,13 @@ export default createStore({
       state.products = products;
     },
     UPDATE_SHIPPING_DETAILS(state, shippingDetails) {
-      console.log("UPDATE_SHIPPING_DETAILS: ", shippingDetails);
       state.shippingDetails = shippingDetails;
+    },
+    UPDATE_BILLING_DETAILS(state, billingDetails) {
+      state.billingDetails = billingDetails;
+    },
+    UPDATE_PAYMENT_DETAILS(state, paymentDetails) {
+      state.paymentDetails = paymentDetails;
     }
   },
   actions: {

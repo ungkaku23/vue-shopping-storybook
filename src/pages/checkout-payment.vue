@@ -22,7 +22,7 @@
         border-radius: 8px;
       `"
     />
-    <div v-if="state.isDirtyForm" class="error">{{validator("method")}}</div>
+    <div v-if="state.isDirtyForm" class="error">{{checkoutPaymentValidator("method", state.paymentDetails)}}</div>
     <div style="height: 6px;">
     </div>
 
@@ -32,7 +32,7 @@
       :value="state.paymentDetails.cardHolderName"
       @input="setCardHolderName"
     />
-    <div v-if="state.isDirtyForm" class="error">{{validator("cardHolderName")}}</div>
+    <div v-if="state.isDirtyForm" class="error">{{checkoutPaymentValidator("cardHolderName", state.paymentDetails)}}</div>
 
     <nv-input 
       fullWidth 
@@ -43,7 +43,7 @@
       tokens="#### #### #### ####"
       placeholder="4242 4242 4242 4242"
     />
-    <div v-if="state.isDirtyForm" class="error">{{validator("cardNumber")}}</div>
+    <div v-if="state.isDirtyForm" class="error">{{checkoutPaymentValidator("cardNumber", state.paymentDetails)}}</div>
 
     <div class="expiration-security">
       <div class="es-widget">
@@ -56,7 +56,7 @@
           tokens="##/##"
           placeholder="MM/YY"
         />
-        <div v-if="state.isDirtyForm" class="error">{{validator("expirationDate")}}</div>
+        <div v-if="state.isDirtyForm" class="error">{{checkoutPaymentValidator("expirationDate", state.paymentDetails)}}</div>
       </div>
       <div class="es-widget">
         <nv-input 
@@ -68,7 +68,7 @@
           tokens="###"
           placeholder="CVC"
         />
-        <div v-if="state.isDirtyForm" class="error">{{validator("securityCode")}}</div>
+        <div v-if="state.isDirtyForm" class="error">{{checkoutPaymentValidator("securityCode", state.paymentDetails)}}</div>
       </div>
     </div>
 
@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted, watch } from 'vue';
 import axios from 'axios';
 import './checkout-payment.css';
 import NvButton from '../components/nv-button.vue';
@@ -102,6 +102,12 @@ import NvSelect from '../components/nv-select.vue';
 import LoadingSpinner from '../components/loading-spinner.vue';
 import NvCheckbox from '../components/nv-checkbox.vue';
 import NvRadiobox from '../components/nv-radiobox.vue';
+import { 
+  cardExpirationValidator,
+  cardNumberValidator,
+  cvcValidator,
+  checkoutPaymentValidator 
+} from '../helpers';
 
 export default {
   name: 'checkout-payment',
@@ -122,6 +128,8 @@ export default {
     }
   },
 
+  emits: ['continuePayment'],
+
   setup(props, { emit }) {
     props = reactive(props);
     const state = reactive({ 
@@ -131,80 +139,12 @@ export default {
       isDirtyForm: false
     });
 
-    const cardExpirationValidator = () => {
-      let today = new Date();
-      let thisYrStr = today.getFullYear().toString();
-      let dataStr = JSON.parse(JSON.stringify(state.paymentDetails.expirationDate));
-      let month = parseInt(dataStr.split("/")[0]); // 1 - 12
-      let year = parseInt(dataStr.split("/")[1]); // 23
-      let yrUnit = thisYrStr.substring(0, thisYrStr.length - 2);
-
-      if (month > 0 && month < 13) {
-        
-        let expDate = new Date(parseInt(yrUnit + year), month - 1);
-        if (today.getTime() > expDate.getTime()) {
-            return "Your Card is expired. Please check expiry date.";
-        } else {
-          return "";
-        }
-      } else {
-        return "Expiration date is invalid";
+    watch(() => props.paymentDetails, (current, prev) => {
+      if (JSON.stringify(current) !== JSON.stringify(prev)) {
+        state.paymentDetails = current;
       }
-    }
+    });
 
-    const cardNumberValidator = () => {
-      let dataStr = JSON.parse(JSON.stringify(state.paymentDetails.cardNumber));
-      return dataStr.replace(/[" "]/g, "").length !== 16 ? "Card number is invalid" : "";
-    }
-
-    const cvcValidator = () => {
-      let dataStr = JSON.parse(JSON.stringify(state.paymentDetails.securityCode));
-      return dataStr.length !== 3 ? "Security code is invalid" : "";
-    }
-
-    const validator = (field = "") => {
-      let isValid = true;
-      let paymentErrText = '';
-
-      if (field !== "") {
-        if (field !== "isSavePaymentInfo") {
-          if (state.paymentDetails[field] === "") {
-            paymentErrText = "This is required";
-          } else {
-            if (field === "expirationDate" && cardExpirationValidator() !== "") {
-              paymentErrText = cardExpirationValidator();
-            }
-
-            if (field === "cardNumber" && cardNumberValidator() !== "") {
-              paymentErrText = cardNumberValidator();
-            }
-
-            if (field === "securityCode" && cvcValidator() !== "") {
-              paymentErrText = cvcValidator();
-            }
-          }
-
-          return paymentErrText;
-        }
-      } else {
-        for (const key in state.paymentDetails) {
-          if (key !== "isSavePaymentInfo") {
-            state.paymentDetails[key] === "" 
-              ? isValid = false 
-              : (key === "expirationDate" && cardExpirationValidator() !== "") || 
-                (key === "cardNumber" && cardNumberValidator() !== "") || 
-                (key === "securityCode" && cvcValidator() !== "")
-                ? isValid = false
-                : null;
-          }
-        }
-
-        return isValid;
-      }
-
-      return null;
-    }
-    
     onMounted(() => {
     });
 
@@ -227,7 +167,7 @@ export default {
       cardExpirationValidator,
       cardNumberValidator,
       cvcValidator,
-      validator,
+      checkoutPaymentValidator,
       setIsSavePaymentInfo(val) {
         if (val.indexOf("Save this card for future faster checkout") !== -1) {
           state.paymentDetails["isSavePaymentInfo"] = true;
@@ -252,8 +192,8 @@ export default {
       },
       continuePayment() {
         state.isDirtyForm = true;
-        if (validator("")) {
-          console.log("paymentDetails--: ", state.paymentDetails);
+        if (checkoutPaymentValidator("", state.paymentDetails)) {
+          emit("continuePayment", state.paymentDetails);
         }
       }
     };
