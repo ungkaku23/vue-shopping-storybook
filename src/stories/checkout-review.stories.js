@@ -68,7 +68,7 @@ Standard.args = {
   }, 
   billingDetails: {
     fullName: "Jhon Mata",
-    deliveryAddress: "3224 Harvey Land, Los Angeles, CA, USA",
+    billingAddress: "3224 Harvey Land, Los Angeles, CA, USA",
     country: "United States",
     state: "CA"
   },

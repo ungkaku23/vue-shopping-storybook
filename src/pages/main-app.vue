@@ -20,6 +20,7 @@
       <checkout-shipping 
         :shippingDetails="shippingDetails"
         :billingDetails="billingDetails"
+        @continuePayment="onCheckoutShippingSubmit"
       />
     </div>
   </section>
@@ -88,6 +89,9 @@ export default {
       },
       onUpdateStep(val) {
         store.commit('UPDATE_STEP', val);
+      },
+      onCheckoutShippingSubmit(val) {
+        console.log("val: ", val);
       }
     };
   }

@@ -50,7 +50,7 @@ export default createStore({
     }, 
     billingDetails: {
       fullName: "",
-      deliveryAddress: "",
+      billingAddress: "",
       country: "",
       state: ""
     },

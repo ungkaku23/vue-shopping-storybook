@@ -12,7 +12,7 @@
       :value="state.shippingDetails.fullName"
       @input="setFullName"
     />
-    <div v-if="state.isDirtyForm" class="error">{{validator("fullName", "shipping")}}</div>
+    <div v-if="state.isDirtyForm" class="error">{{checkoutShippingValidator("fullName", "shipping", state.shippingDetails, state.billingDetails)}}</div>
 
     <nv-input 
       fullWidth 
@@ -23,7 +23,7 @@
       @input="setDeliveryAddress"
       placeholder="Enter your address"
     />
-    <div v-if="state.isDirtyForm" class="error">{{validator("deliveryAddress", "shipping")}}</div>
+    <div v-if="state.isDirtyForm" class="error">{{checkoutShippingValidator("deliveryAddress", "shipping", state.shippingDetails, state.billingDetails)}}</div>
     
     <div class="country-state">
       <div class="cs-widget">
@@ -34,7 +34,7 @@
           :options="state.countries"
           @change="setCountry"
         />
-        <div v-if="state.isDirtyForm" class="error">{{validator("country", "shipping")}}</div>
+        <div v-if="state.isDirtyForm" class="error">{{checkoutShippingValidator("country", "shipping", state.shippingDetails, state.billingDetails)}}</div>
       </div>
       <div class="cs-widget">
         <nv-select 
@@ -44,7 +44,7 @@
           :options="state.states"
           @change="setState"
         />
-        <div v-if="state.isDirtyForm" class="error">{{validator("state", "shipping")}}</div>
+        <div v-if="state.isDirtyForm" class="error">{{checkoutShippingValidator("state", "shipping", state.shippingDetails, state.billingDetails)}}</div>
       </div>
     </div>
 
@@ -60,7 +60,7 @@
         :value="state.billingDetails.fullName"
         @input="setBillingFullName"
       />
-      <div v-if="state.isDirtyForm" class="error">{{validator("fullName", "billing")}}</div>
+      <div v-if="state.isDirtyForm" class="error">{{checkoutShippingValidator("fullName", "billing", state.shippingDetails, state.billingDetails)}}</div>
 
       <nv-input 
         fullWidth 
@@ -70,7 +70,7 @@
         @change="setBillingInfos"
         @input="setBillingAddress"
       />
-      <div v-if="state.isDirtyForm" class="error">{{validator("billingAddress", "billing")}}</div>
+      <div v-if="state.isDirtyForm" class="error">{{checkoutShippingValidator("billingAddress", "billing", state.shippingDetails, state.billingDetails)}}</div>
 
       <div class="country-state">
         <div class="cs-widget">
@@ -81,7 +81,7 @@
             :options="state.countries"
             @change="setBillingCountry"
           />
-          <div v-if="state.isDirtyForm" class="error">{{validator("country", "billing")}}</div>
+          <div v-if="state.isDirtyForm" class="error">{{checkoutShippingValidator("country", "billing", state.shippingDetails, state.billingDetails)}}</div>
         </div>
         <div class="cs-widget">
           <nv-select 
@@ -91,7 +91,7 @@
             :options="state.billingStates"
             @change="setBillingState"
           />
-          <div v-if="state.isDirtyForm" class="error">{{validator("state", "billing")}}</div>
+          <div v-if="state.isDirtyForm" class="error">{{checkoutShippingValidator("state", "billing", state.shippingDetails, state.billingDetails)}}</div>
         </div>
       </div>
     </div>
@@ -139,6 +139,7 @@ import NvSelect from '../components/nv-select.vue';
 import LoadingSpinner from '../components/loading-spinner.vue';
 import NvCheckbox from '../components/nv-checkbox.vue';
 import NvRadiobox from '../components/nv-radiobox.vue';
+import { checkoutShippingValidator } from '../helpers';
 
 export default {
   name: 'checkout-shipping',
@@ -162,6 +163,8 @@ export default {
       default: {}
     }
   },
+
+  emits: ['continuePayment'],
 
   setup(props, { emit }) {
     props = reactive(props);
@@ -242,40 +245,6 @@ export default {
         .catch((err) => {
           state.isLoading = false;
         });
-    }
-
-    const validator = (field = "", type = "") => {
-      let isValid = true;
-      let shippingErrText = '';
-      let billingErrText = '';
-
-      if (field !== "") {
-        if (field !== "shippingMode" && field !== "isSameAsBillingAddress" && field !== "postalCode") {
-          if (state.shippingDetails[field] === "") {
-            shippingErrText = "This is required";
-          }
-
-          if (state.billingDetails[field] === "") {
-            billingErrText = "This is required";
-          }
-          return type === "shipping" ? shippingErrText : billingErrText;
-        }
-      } else {
-        for (const key in state.shippingDetails) {
-          if (key !== "shippingMode" && key !== "isSameAsBillingAddress" && key !== "postalCode") {
-            state.shippingDetails[key] === "" ? isValid = false : null;
-          }
-        }
-
-        for (const key in state.billingDetails) {
-          if (key !== "shippingMode" && key !== "isSameAsBillingAddress" && key !== "postalCode") {
-            state.billingDetails[key] === "" ? isValid = false : null;
-          }
-        }
-        return isValid;
-      }
-
-      return null;
     }
     
     onMounted(() => {
@@ -379,12 +348,14 @@ export default {
       setShippingMode(val) {
         state.shippingDetails["shippingMode"] = val;
       },
-      validator,
+      checkoutShippingValidator,
       continuePayment() {
         state.isDirtyForm = true;
-        if (validator("", "")) {
-          console.log("shipping--: ", state.shippingDetails);
-          console.log("billing--: ", state.billingDetails);
+        if (checkoutShippingValidator("", "", state.shippingDetails, state.billingDetails)) {
+          emit("continuePayment", {
+            shippingDetails: state.shippingDetails, 
+            billingDetails: state.billingDetails
+          });
         }
       }
     };
