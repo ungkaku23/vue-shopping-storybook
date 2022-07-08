@@ -15,6 +15,9 @@
       <line-progress 
         v-if="step < 4"
         :step="step"
+        :shippingDetails="shippingDetails"
+        :billingDetails="billingDetails"
+        :paymentDetails="paymentDetails"
         @click="onUpdateStep"
         style="margin-top: -14px; margin-bottom: 11px;"
       />

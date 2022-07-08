@@ -7,7 +7,7 @@
     >
       <div 
         class="point-box"
-        @click="$emit('click', index + 1)"
+        @click="updateStep(index)"
       >
         <div :class="`point ${index < step ? '' : 'inactive'}`">
           <svg
@@ -36,8 +36,12 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, watch } from 'vue';
 import './line-progress.css';
+import { 
+  checkoutShippingValidator,
+  checkoutPaymentValidator
+} from '../helpers';
 
 export default {
   name: 'line-progress',
@@ -50,6 +54,18 @@ export default {
     style: {
       type: String,
       default: ""
+    },
+    shippingDetails: {
+      type: Object,
+      default: {}
+    },
+    billingDetails: {
+      type: Object,
+      default: {}
+    },
+    paymentDetails: {
+      type: Object,
+      default: {}
     }
   },
 
@@ -58,6 +74,30 @@ export default {
   setup(props, { emit }) {
     props = reactive(props);
     const stepIndex = ref(props.step);
+
+    const state = reactive({ 
+      shippingDetails: props.shippingDetails,
+      billingDetails: props.billingDetails,
+      paymentDetails: props.paymentDetails
+    });
+
+    watch(() => props.shippingDetails, (current, prev) => {
+      if (JSON.stringify(current) !== JSON.stringify(prev)) {
+        state.shippingDetails = current;
+      }
+    });
+
+    watch(() => props.billingDetails, (current, prev) => {
+      if (JSON.stringify(current) !== JSON.stringify(prev)) {
+        state.billingDetails = current;
+      }
+    });
+
+    watch(() => props.paymentDetails, (current, prev) => {
+      if (JSON.stringify(current) !== JSON.stringify(prev)) {
+        state.paymentDetails = current;
+      }
+    });
 
     return {
       points: [{
@@ -70,8 +110,33 @@ export default {
         index: 3,
         label: "Review"
       }],
+      state,
       styles: computed(() => props.style),
-      stepIndex
+      stepIndex,
+      checkoutShippingValidator,
+      updateStep(index) {
+        let errEmit = "";
+        switch (index) {
+          case 0:
+            break;
+          case 1:
+            if (!checkoutShippingValidator("", "", state.shippingDetails, state.billingDetails)) {
+              errEmit = "Shipping Section";
+            }
+            break;
+          case 2:
+            if (!checkoutPaymentValidator("", state.paymentDetails)) {
+              errEmit = "Payment Section";
+            }
+            break;
+        }
+
+        if (errEmit === "") {
+          emit('click', index + 1);
+        } else {
+          alert(`Please pass the ${errEmit}.`);
+        }
+      }
     };
   }
 };
