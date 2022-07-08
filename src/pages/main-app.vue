@@ -40,6 +40,7 @@
         :paymentDetails="paymentDetails"
         :products="products"
         @continuePayment="onCheckoutReviewSubmit"
+        @editCheckoutInfos="onUpdateStep"
       />
       <transaction-success 
         v-else

@@ -17,7 +17,12 @@
         <div class="brief-title">
           Shipping Address
         </div>
-        <span class="brief-edit">Edit</span>
+        <span 
+          class="brief-edit"
+          @click="editCheckoutInfos(1)"
+        >
+          Edit
+        </span>
       </div>
       <div class="brief-info">
         <div class="brief-label">
@@ -47,11 +52,16 @@
         <div class="brief-title">
           Payment
         </div>
-        <span class="brief-edit">Edit</span>
+        <span 
+          class="brief-edit"
+          @click="editCheckoutInfos(2)"
+        >
+          Edit
+        </span>
       </div>
       <div class="brief-info" style="justify-content: space-between;">
         <div class="brief-card-label">
-          <img :src="getImgUrl(state.paymentDetails.method === 'card' ? 'card.png' : 'paypal.png')" /> 
+          <img :src="getImgUrl(state.paymentDetails.method === 'credit_card' ? 'card.png' : 'paypal.png')" /> 
           <div>****</div>
           <div>{{state.paymentDetails.cardNumber.split(" ")[3]}}</div>
         </div>
@@ -113,7 +123,7 @@ export default {
     }
   },
 
-  emits: ['continuePayment'],
+  emits: ['continuePayment', 'editCheckoutInfos'],
 
   setup(props, { emit }) {
     props = reactive(props);
@@ -164,6 +174,9 @@ export default {
       getImgUrl,
       onUpdateShippingMode(val) {
         state.shippingDetails["shippingMode"] = val;
+      },
+      editCheckoutInfos(stepIndex) {
+        emit("editCheckoutInfos", stepIndex);
       },
       continuePayment() {
         emit("continuePayment", state);
