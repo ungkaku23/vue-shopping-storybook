@@ -1,9 +1,9 @@
 <template>
-  <div class="nv-input-label" v-if="label !== ''">{{label}}</div>
+  <div class="nv-input-label" v-if="labels !== ''">{{labels}}</div>
   <GMapAutocomplete
-    v-if="type === 'autocomplete'"
+    v-if="types === 'autocomplete'"
     :class="classes"
-    :style="style"
+    :style="styles"
     :placeholder="placeholders"
     @place_changed="setPlace"
     @input="onPlaceInput"
@@ -11,30 +11,30 @@
   >
   </GMapAutocomplete>
   <input 
-    v-else-if="type === 'mask'" 
-    v-maska="tokens"
+    v-else-if="types === 'mask'" 
+    v-maska="tokensPattern"
     :class="classes" 
     :value="state.nValue"
     @change="onChange" 
     @input="onInput" 
-    :style="style" 
+    :style="styles" 
     :placeholder="placeholders"
   />
   <input 
     v-else 
-    :type="type" 
+    :type="types" 
     :class="classes" 
     :value="state.nValue"
     @change="onChange" 
     @input="onInput" 
-    :style="style" 
+    :style="styles" 
     :placeholder="placeholders"
   />
 </template>
 
 <script>
 import './nv-input.css';
-import { reactive, computed, onMounted, ref } from 'vue';
+import { reactive, computed, onMounted } from 'vue';
 
 export default {
   name: 'nv-input',
@@ -94,15 +94,14 @@ export default {
 
     return {
       state,
-      tokens: computed(() => props.tokens),
+      tokensPattern: computed(() => props.tokens),
       placeholders: computed(() => props.placeholder),
       classes: computed(() => ({
         "nv-input": true,
         [props.class]: true,
         [`input-${props.size}`]: true,
       })),
-      class: computed(() => props.class),
-      style: computed(() => {
+      styles: computed(() => {
         let widthStyle = '';
         if (props.fullWidth) {
           let px = 0;
@@ -118,8 +117,8 @@ export default {
         }
         return props.style + widthStyle;
       }),
-      type: computed(() => props.type),
-      label: computed(() => props.label),
+      types: computed(() => props.type),
+      labels: computed(() => props.label),
       onChange(e) {
         state.nValue = e.target.value;
         emit('change', {

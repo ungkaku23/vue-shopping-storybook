@@ -1,19 +1,19 @@
 <template>
   <div class="loading-spinner">
-    <div :style="`color: ${color}`">
-      {{label}}
+    <div :style="`color: ${colors}`">
+      {{labels}}
     </div>
     <div class="lds-ellipsis">
-      <div :style="`background: ${color}`"></div>
-      <div :style="`background: ${color}`"></div>
-      <div :style="`background: ${color}`"></div>
-      <div :style="`background: ${color}`"></div>
+      <div :style="`background: ${colors}`"></div>
+      <div :style="`background: ${colors}`"></div>
+      <div :style="`background: ${colors}`"></div>
+      <div :style="`background: ${colors}`"></div>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue';
+import { reactive, computed } from 'vue';
 import './loading-spinner.css';
 
 export default {
@@ -30,12 +30,12 @@ export default {
     }
   },
 
-  setup(props, { emit }) {
+  setup(props) {
     props = reactive(props);
 
     return {
-      label: computed(() => props.label),
-      color: computed(() => props.color)
+      labels: computed(() => props.label),
+      colors: computed(() => props.color)
     };
   }
 };

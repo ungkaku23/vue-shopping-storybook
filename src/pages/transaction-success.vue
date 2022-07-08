@@ -21,8 +21,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed, onMounted } from 'vue';
-import axios from 'axios';
+import { reactive, onMounted } from 'vue';
 import './transaction-success.css';
 import NvButton from '../components/nv-button.vue';
 
@@ -37,8 +36,10 @@ export default {
     
   },
 
+  emits: ['back'],
+
   setup(props, { emit }) {
-    // props = reactive(props);
+    props = reactive(props);
 
     const state = reactive({ 
     });
@@ -55,7 +56,7 @@ export default {
       state,
       getImgUrl,
       back() {
-        
+        emit('back');
       }
     };
   }

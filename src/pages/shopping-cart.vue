@@ -2,7 +2,7 @@
   <section class="shopping-cart">
     <product-item
       v-for="(item, index) in state.products"
-      :key="randKey()"
+      :key="`${randKey()}${index}`"
       :item="item"
       @onUpdate="(obj) => onUpdate(obj, index)"
       @onRemove="onRemove"
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed, onMounted, watch } from 'vue';
+import { reactive, onMounted, watch } from 'vue';
 import './shopping-cart.css';
 import ProductItem from '../components/product-item.vue';
 import NvButton from '../components/nv-button.vue';
@@ -42,12 +42,16 @@ export default {
 
   props: {
     products: {
-      type: Object,
-      default: []
+      type: Array,
+      default() {
+        return [];
+      }
     },
     shippingDetails: {
       type: Object,
-      default: {}
+      default() {
+        return {};
+      }
     }
   },
 

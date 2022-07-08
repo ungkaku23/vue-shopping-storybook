@@ -88,8 +88,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed, onMounted, watch } from 'vue';
-import axios from 'axios';
+import { reactive, onMounted, watch } from 'vue';
 import './checkout-review.css';
 import NvButton from '../components/nv-button.vue';
 import LoadingSpinner from '../components/loading-spinner.vue';
@@ -107,19 +106,27 @@ export default {
   props: {
     paymentDetails: {
       type: Object,
-      default: {}
+      default() {
+        return {};
+      }
     },
     shippingDetails: {
       type: Object,
-      default: {}
+      default() {
+        return {};
+      }
     },
     billingDetails: {
       type: Object,
-      default: {}
+      default() {
+        return {};
+      }
     },
     products: {
-      type: Object,
-      default: []
+      type: Array,
+      default() {
+        return [];
+      }
     }
   },
 

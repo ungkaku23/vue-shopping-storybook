@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed, onMounted, watch } from 'vue';
+import { reactive, computed, onMounted, watch } from 'vue';
 import axios from 'axios';
 import './checkout-shipping.css';
 import NvButton from '../components/nv-button.vue';
@@ -156,11 +156,15 @@ export default {
   props: {
     shippingDetails: {
       type: Object,
-      default: {}
+      default() {
+        return {};
+      }
     },
     billingDetails: {
       type: Object,
-      default: {}
+      default() {
+        return {};
+      }
     }
   },
 
@@ -223,10 +227,12 @@ export default {
           }
         })
         .catch((err2) => {
+          console.log(err2);
           state.isLoading = false;
         });
       })
       .catch((err) => {
+        console.log(err);
         state.isLoading = false;
       });
     }
@@ -243,6 +249,7 @@ export default {
           }));
         })
         .catch((err) => {
+          console.log(err);
           state.isLoading = false;
         });
     }

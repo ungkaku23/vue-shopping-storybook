@@ -44,14 +44,14 @@
       />
       <transaction-success 
         v-else
+        @back="onUpdateStep(0)"
       />
     </div>
   </section>
 </template>
 
 <script>
-import { ref, reactive, computed, onMounted } from 'vue';
-import axios from 'axios';
+import { reactive, computed, onMounted } from 'vue';
 import './main-app.css';
 import { useStore } from 'vuex';
 import NvHeader from '../components/nv-header.vue';
@@ -79,16 +79,14 @@ export default {
     
   },
 
-  setup(props, { emit }) {
+  setup() {
     const store = useStore();
-    // props = reactive(props);
 
     const state = reactive({ 
       
     });
     
     onMounted(() => {
-      // store.dispatch('updateProducts', "quick");
     });
 
     const step = computed(() => store.state.step);

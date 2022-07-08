@@ -93,12 +93,10 @@
 </template>
 
 <script>
-import { ref, reactive, computed, onMounted, watch } from 'vue';
-import axios from 'axios';
+import { reactive, computed, onMounted, watch } from 'vue';
 import './checkout-payment.css';
 import NvButton from '../components/nv-button.vue';
 import NvInput from '../components/nv-input.vue';
-import NvSelect from '../components/nv-select.vue';
 import LoadingSpinner from '../components/loading-spinner.vue';
 import NvCheckbox from '../components/nv-checkbox.vue';
 import NvRadiobox from '../components/nv-radiobox.vue';
@@ -115,7 +113,6 @@ export default {
   components: { 
     NvButton,
     NvInput,
-    NvSelect,
     LoadingSpinner,
     NvCheckbox,
     NvRadiobox
@@ -124,7 +121,9 @@ export default {
   props: {
     paymentDetails: {
       type: Object,
-      default: {}
+      default() {
+        return {};
+      }
     }
   },
 

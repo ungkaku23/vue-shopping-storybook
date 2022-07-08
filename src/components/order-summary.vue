@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed, watch } from 'vue';
+import { reactive, computed, watch } from 'vue';
 import './order-summary.css';
 
 export default {
@@ -43,8 +43,10 @@ export default {
 
   props: {
     products: {
-      type: Object,
-      default: []
+      type: Array,
+      default() {
+        return [];
+      }
     },
     shippingMode: {
       type: String,

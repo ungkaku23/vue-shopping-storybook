@@ -1,9 +1,9 @@
 <template>
   <div 
-    v-for="(option, index) in options"
-    :key="randKey()"
+    v-for="(option, index) in optionList"
+    :key="`${randKey()}${index}`"
     :class="classes" 
-    :style="`${style} ${state.nValue === option.value ? 'border-color: black;' : 'border-color: #838383;'}`"
+    :style="`${styles} ${state.nValue === option.value ? 'border-color: black;' : 'border-color: #838383;'}`"
     @click="onChange(option)"
   >
     <div class="tick-box-label">
@@ -41,7 +41,7 @@
 
 <script>
 import './nv-radiobox.css';
-import { reactive, computed, onMounted, ref } from 'vue';
+import { reactive, computed, onMounted } from 'vue';
 
 export default {
   name: 'nv-radiobox',
@@ -52,8 +52,10 @@ export default {
       default: false
     },
     options: {
-      type: Object,
-      default: []
+      type: Array,
+      default() {
+        return [];
+      }
     },
     label: {
       type: String
@@ -99,13 +101,13 @@ export default {
     return {
       state,
       getImgUrl,
-      options: computed(() => props.options),
+      optionList: computed(() => props.options),
       classes: computed(() => ({
         "nv-radiobox": true,
         [props.class]: true,
         [`radiobox-${props.size}`]: true,
       })),
-      style: computed(() => {
+      styles: computed(() => {
         let widthStyle = '';
         if (props.fullWidth) {
           let px = 0;
@@ -121,7 +123,6 @@ export default {
         }
         return props.style + widthStyle;
       }),
-      label: computed(() => props.label),
       onChange(obj) {
         state.nValue = obj.value;
         emit("change", state.nValue);

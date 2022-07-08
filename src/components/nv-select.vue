@@ -1,13 +1,13 @@
 <template>
   <div 
     class="nv-select-label" 
-    v-if="label !== ''"
+    v-if="labels !== ''"
   >
-    {{label}}
+    {{labels}}
   </div>
   <div 
     :class="classes" 
-    :style="style" 
+    :style="styles" 
     @focusout="focusedOut" 
     tabindex="0"
   >
@@ -35,7 +35,7 @@
       <div 
         v-for="(obj, index) in state.options"
         class="option"
-        :key="randKey()"
+        :key="`${randKey()}${index}`"
         @click="onOptionClicked(obj)"
       >
         {{ obj.label }}
@@ -53,8 +53,10 @@ export default {
 
   props: {
     options: {
-      type: Object,
-      default: []
+      type: Array,
+      default() {
+        return [];
+      }
     },
     fullWidth :{
       type: Boolean,
@@ -128,8 +130,7 @@ export default {
         [props.class]: true,
         [`select-${props.size}`]: true,
       })),
-      class: computed(() => props.class),
-      style: computed(() => {
+      styles: computed(() => {
         let widthStyle = '';
         if (props.fullWidth) {
           let px = 0;
@@ -145,7 +146,7 @@ export default {
         }
         return props.style + widthStyle;
       }),
-      label: computed(() => props.label),
+      labels: computed(() => props.label),
       inputChange(e) {
         toggle.value = true;
         state.nValue = e.target.value;

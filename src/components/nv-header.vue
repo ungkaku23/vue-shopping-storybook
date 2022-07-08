@@ -25,14 +25,9 @@
 
 <script>
 import './nv-header.css';
-import NvButton from '../components/nv-button.vue';
 
 export default {
   name: 'nv-header',
-
-  components: { 
-    NvButton
-  },
 
   props: {
     isCheckout: {

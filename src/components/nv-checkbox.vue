@@ -1,9 +1,9 @@
 <template>
   <div 
-    v-for="(option, index) in options"
-    :key="randKey()"
+    v-for="(option, index) in optionList"
+    :key="`${randKey()}${index}`"
     :class="classes" 
-    :style="style"
+    :style="styles"
     @click="onChange(option)"
   >
     <div :class="`tick-box ${state.nValue.indexOf(option.value) !== -1 ? 'selected' : ''}`">
@@ -27,7 +27,7 @@
 
 <script>
 import './nv-checkbox.css';
-import { reactive, computed, onMounted, ref } from 'vue';
+import { reactive, computed, onMounted } from 'vue';
 
 export default {
   name: 'nv-checkbox',
@@ -38,15 +38,19 @@ export default {
       default: false
     },
     options: {
-      type: Object,
-      default: []
+      type: Array,
+      default() {
+        return [];
+      }
     },
     label: {
       type: String
     },
     value: {
-      type: String,
-      default: []
+      type: Array,
+      default() {
+        return [];
+      }
     },
     class: {
       type: String,
@@ -79,13 +83,13 @@ export default {
 
     return {
       state,
-      options: computed(() => props.options),
+      optionList: computed(() => props.options),
       classes: computed(() => ({
         "nv-checkbox": true,
         [props.class]: true,
         [`checkbox-${props.size}`]: true,
       })),
-      style: computed(() => {
+      styles: computed(() => {
         let widthStyle = '';
         if (props.fullWidth) {
           let px = 0;
@@ -101,7 +105,6 @@ export default {
         }
         return props.style + widthStyle;
       }),
-      label: computed(() => props.label),
       onChange(obj) {
         const index = state.nValue.indexOf(obj.value)
         index !== -1 ? state.nValue.splice(index, 1) : state.nValue.push(obj.value);

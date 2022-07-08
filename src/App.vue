@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <shopping-cart />
+    <main-app />
   </div>
 </template>
 
 <script>
-import ShoppingCart from "./pages/shopping-cart.vue";
+import MainApp from "./pages/main-app.vue";
 
 export default {
   name: "App",
   components: {
-    ShoppingCart
+    MainApp
   }
 };
 </script>

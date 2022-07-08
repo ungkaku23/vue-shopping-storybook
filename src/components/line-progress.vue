@@ -2,7 +2,7 @@
   <div class="line-progress" :style="styles">
     <div 
       v-for="(point, index) in points"
-      :key="randKey()"
+      :key="`${randKey()}${index}`"
       :class="`point-line ${index < 2 ? 'group' : ''}`"
     >
       <div 
@@ -57,15 +57,21 @@ export default {
     },
     shippingDetails: {
       type: Object,
-      default: {}
+      default() {
+        return {};
+      }
     },
     billingDetails: {
       type: Object,
-      default: {}
+      default() {
+        return {};
+      }
     },
     paymentDetails: {
       type: Object,
-      default: {}
+      default() {
+        return {};
+      }
     }
   },
 
