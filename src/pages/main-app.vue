@@ -11,11 +11,17 @@
       :shippingDetails="shippingDetails"
       @saveAndCheckout="onSaveAndCheckout"
     />
-    <checkout-shipping 
-      v-else-if="step === 1"
-      :shippingDetails="shippingDetails"
-      :billingDetails="billingDetails"
-    />
+    <div v-else>
+      <line-progress 
+        :step="step"
+        @click="onUpdateStep"
+        style="margin-top: -14px; margin-bottom: 11px;"
+      />
+      <checkout-shipping 
+        :shippingDetails="shippingDetails"
+        :billingDetails="billingDetails"
+      />
+    </div>
   </section>
 </template>
 
@@ -27,6 +33,7 @@ import { useStore } from 'vuex';
 import NvHeader from '../components/nv-header.vue';
 import ShoppingCart from './shopping-cart.vue';
 import CheckoutShipping from './checkout-shipping.vue';
+import LineProgress from '../components/line-progress.vue';
 
 export default {
   name: 'main-app',
@@ -34,7 +41,8 @@ export default {
   components: { 
     NvHeader,
     ShoppingCart,
-    CheckoutShipping
+    CheckoutShipping,
+    LineProgress
   },
 
   props: {
@@ -77,6 +85,9 @@ export default {
           ...shippingDetails.value,
           shippingMode
         });
+      },
+      onUpdateStep(val) {
+        store.commit('UPDATE_STEP', val);
       }
     };
   }

@@ -1,12 +1,14 @@
 <template>
-  <div class="line-progress">
+  <div class="line-progress" :style="styles">
     <div 
       v-for="(point, index) in points"
       :key="randKey()"
       :class="`point-line ${index < 2 ? 'group' : ''}`"
-      
     >
-      <div class="point-box">
+      <div 
+        class="point-box"
+        @click="$emit('click', index + 1)"
+      >
         <div :class="`point ${index < step ? '' : 'inactive'}`">
           <svg
             width="22"
@@ -45,6 +47,10 @@ export default {
       type: Number,
       default: 1,
     },
+    style: {
+      type: String,
+      default: ""
+    }
   },
 
   emits: ['click'],
@@ -64,6 +70,7 @@ export default {
         index: 3,
         label: "Review"
       }],
+      styles: computed(() => props.style),
       stepIndex
     };
   }
